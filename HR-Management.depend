@@ -1,0 +1,9 @@
+# depslib dependency file v1.0
+1563211456 source:c:\users\denni\onedrive\desktop\hr-management\main.cpp
+	<iostream.h>
+	<fstream.h>
+	<stdio.h>
+	<conio.h>
+	<string.h>
+	<stdlib.h>
+
