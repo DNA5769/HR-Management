@@ -8,7 +8,7 @@
 using namespace std;
 
 /*
-*   Hey Aradhan,
+*   Hey Aradhan and Noman
 *   For Employee::Login()
 *   Username - Batman
 *   Password - watchdogs2key
@@ -322,7 +322,13 @@ void Program::Main_menu()
 
 void Program::Add_emp()
 {
-
+    /*
+     *  Hey Noman,
+     *  Write the code for adding an employee here
+     *  Create an input function in class Employee
+     *  And use that to ass employees
+     *  - Sasuke Uchiha
+     */
 }
 
 void Program::Search_menu()

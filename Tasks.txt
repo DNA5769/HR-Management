@@ -1,0 +1,19 @@
+/*
+ *	Hey guys, 
+ *	Mention your status on a task by writing a message next to it preceeded by a ':'
+ *	Eg 1. 	Dennis
+ *		- Stop beng gay : Hell no
+ *	Eg 2.	Dennis
+ *		- Invade Area 51 : Working on it
+ *	Text in group for more info on tasks
+ *	Also, don't forget to push :)
+ */
+
+Aradhan
+- Work on the class 'Design' by making design functions
+- Decorate Employee::Login()
+- Work on Program::Main_menu()
+
+Noman
+- Work on Program::Add_emp()
+- Work on Program::Main_menu()
