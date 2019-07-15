@@ -7,6 +7,14 @@
 
 using namespace std;
 
+/*
+*   Hey Aradhan,
+*   For Employee::Login()
+*   Username - Batman
+*   Password - watchdogs2key
+*   - Sasuke Uchiha
+*/
+
 class Employee
 {
 private:
@@ -272,7 +280,7 @@ void Program::Login()
 
     //Checking login details
     ClearLoginMessage();
-    if(!strcmp(username, "Reee") && !strcmp(password, "watchdogs2key")) //IMP - These are login details. Ha
+    if(!strcmp(username, Get_username()) && !strcmp(password, Get_password()))
     {
         gotoxy(35, 19);
         Main_menu();
