@@ -212,6 +212,8 @@ public:
     void Salary_GetDetails();
     void Salary_slip();
     void Reports();
+    void Change_password();
+    int Exit();
 };
 
 void Program::Login()
@@ -316,8 +318,60 @@ void Program::Login()
 
 void Program::Main_menu()
 {
-    clrscr();
-    cout << "Bruh";
+    int option;
+
+    do
+    {
+        //Display Menu
+        _menu:
+        clrscr();
+        Border('*');
+        gotoxy(32, 10);
+        cout << "1. Add Employee";
+        gotoxy(32, 11);
+        cout << "2. Search Employee";
+        gotoxy(32, 12);
+        cout << "3. Salary";
+        gotoxy(32, 13);
+        cout << "4. Reports";
+        gotoxy(32, 14);
+        cout << "5. Change Password";
+        gotoxy(32, 15);
+        cout << "6. Exit";
+
+        gotoxy(30, 17);
+        cout << "Choose an option: ";
+        cin >> option;
+
+        switch(option)
+        {
+        case 1:
+            Add_emp();
+            break;
+        case 2:
+            Search_menu();
+            break;
+        case 3:
+            Salary_menu();
+            break;
+        case 4:
+            Reports();
+            break;
+        case 5:
+            Change_password();
+            break;
+        case 6:
+            if(!Exit())         //If user says 'No' while exit confirmation, it returns 0 and displays menu
+                goto _menu;
+            break;
+        default:
+            gotoxy(30, 18);
+            cout << "Invalid option!!!";
+            getch(); //Delay function here
+            goto _menu;
+        }
+
+    }while(option != 6);
 }
 
 void Program::Add_emp()
@@ -333,42 +387,71 @@ void Program::Add_emp()
 
 void Program::Search_menu()
 {
-
+    clrscr();
+    cout << "Bruh";
 }
 
 void Program::Search_empno()
 {
-
+    clrscr();
+    cout << "Bruh";
 }
 
 void Program::Search_name()
 {
-
+    clrscr();
+    cout << "Bruh";
 }
 
 void Program::Search_dept()
 {
-
+    clrscr();
+    cout << "Bruh";
 }
 
 void Program::Salary_menu()
 {
-
+    clrscr();
+    cout << "Bruh";
 }
 
 void Program::Salary_GetDetails()
 {
-
+    clrscr();
+    cout << "Bruh";
 }
 
 void Program::Salary_slip()
 {
-
+    clrscr();
+    cout << "Bruh";
 }
 
 void Program::Reports()
 {
+    clrscr();
+    cout << "Bruh";
+}
 
+void Program::Change_password()
+{
+    clrscr();
+    cout << "Bruh";
+}
+
+int Program::Exit()
+{
+    char response[3];
+
+    gotoxy(25, 18);
+    cout << "Are you sure you want to exit?";
+    gotoxy(37, 19);
+    gets(response);
+
+    if(!strcmpi(response, "Yes") || !strcmpi(response, "Y"))
+        exit(0);
+    else if(!strcmpi(response, "No") || !strcmpi(response, "N"))
+        return 0;
 }
 
                                         ///////////////////////////////////////////
@@ -379,5 +462,4 @@ int main()
     Design D;
     Program P;
 
-    P.Login();
 }
