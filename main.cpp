@@ -103,6 +103,8 @@ public:
     //Creates a border using specified character 'ch'
     void Box(int x, int y, int l, int b, char ch);
     //Creates a box on (x ,y) coordinate of specified character 'ch' and dimensions lxb
+    void Delay(int a);
+    //Creates a delay which can be adjusted using 'a'
     void ClearLoginBox();
     //Clears login details entry boxes
     void ClearLoginMessage();
@@ -192,6 +194,13 @@ void Design::Box(int x, int y, int l, int b, char ch)
             cout << ch;
         }
     }
+}
+
+void Design::Delay(int a)
+{
+    for(int i = 0; i <= a; ++i)
+        for(int j = 0; j <= a; ++j)
+            cout << "";
 }
 
                                         ///////////////////////////////////////////
@@ -306,7 +315,7 @@ void Program::Login()
         {
             gotoxy(33, 20);
             cout << "Access Unauthorized!";
-            getch(); //You can put your delay function here
+            Delay(4000);
             exit(0);
         }
 
@@ -367,7 +376,7 @@ void Program::Main_menu()
         default:
             gotoxy(30, 18);
             cout << "Invalid option!!!";
-            getch(); //Delay function here
+            Delay(2000);
             goto _menu;
         }
 
