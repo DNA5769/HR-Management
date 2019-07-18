@@ -12,7 +12,7 @@
 Aradhan
 - Work on the class 'Design' by making design functions
 - Decorate Employee::Login()
-- Work on Program::Main_menu()
+- Work on Program::Main_menu() especially design
 
 Noman
 - Work on Program::Add_emp()
