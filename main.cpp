@@ -4,14 +4,15 @@
 #include <conio.h>
 #include <string.h>
 #include <stdlib.h>
+#include <ctype.h>
 
 using namespace std;
 
-/*
+/*  I M P O R T A N T   M E S S A G E
 *   Hey Aradhan and Noman
 *   For Employee::Login()
 *   Username - Batman
-*   Password - watchdogs2key
+*   Password - Watchdog$2key
 *   - Sasuke Uchiha
 */
 
@@ -103,12 +104,24 @@ public:
     //Creates a border using specified character 'ch'
     void Box(int x, int y, int l, int b, char ch);
     //Creates a box on (x ,y) coordinate of specified character 'ch' and dimensions lxb
-    void Delay(int a);
-    //Creates a delay which can be adjusted using 'a'
     void ClearLoginBox();
     //Clears login details entry boxes
     void ClearLoginMessage();
     //Clears login messages
+    void ClearChangePasswordBox();
+    //Clears login details entry boxes
+    void ClearChangePasswordMessage();
+    //Clears login messages
+    void ClearStrength();
+    //Clears password strength
+    int NumberCount(char sent[]);
+    //Checks number count
+    int UpperCount(char sent[]);
+    //Checks uppercase letter count
+    int SpecialCount(char sent[]);
+    //Checks special character count
+    void Delay(int a);
+    //Creates a delay which can be adjusted using 'a'
 };
 
 void Design::Border(char ch)
@@ -196,6 +209,90 @@ void Design::Box(int x, int y, int l, int b, char ch)
     }
 }
 
+void Design::ClearChangePasswordBox()
+{
+    for(int i = 0; i < 19; ++i)
+    {
+        gotoxy(42 + i, 10);
+        cout << ' ';
+    }
+    for(int j = 0; j < 19; ++j)
+    {
+        gotoxy(42 + j, 16);
+        cout << ' ';
+    }
+}
+
+void Design::ClearChangePasswordMessage()
+{
+    int i;
+
+    //Clears long message
+    for(i = 0; i < 54; ++i)
+    {
+        gotoxy(16 + i, 19);
+        cout << ' ';
+    }
+    for(i = 0; i < 54; ++i)
+    {
+        gotoxy(16 + i, 20);
+        cout << ' ';
+    }
+    for(i = 0; i < 54; ++i)
+    {
+        gotoxy(16 + i, 21);
+        cout << ' ';
+    }
+    for(i = 0; i < 54; ++i)
+    {
+        gotoxy(16 + i, 22);
+        cout << ' ';
+    }
+}
+
+void Design::ClearStrength()
+{
+    for(int i = 0; i < 20; ++i)
+    {
+        gotoxy(23 + i, 13);
+        cout << ' ';
+    }
+}
+
+int Design::NumberCount(char sent[])
+{
+    int count = 0;
+
+    for(int i = 0; sent[i] != 0; ++i)
+        if((sent[i] == '0' || sent[i] == '1' || sent[i] == '2' || sent[i] == '3' || sent[i] == '4' ||
+           sent[i] == '5' || sent[i] == '6' || sent[i] == '7' || sent[i] == '8' || sent[i] == '9') && isdigit(sent[i]))
+            ++count;
+
+    return count;
+}
+
+int Design::SpecialCount(char sent[])
+{
+    int count = 0;
+
+    for(int i = 0; sent[i] != 0; ++i)
+        if(!isalpha(sent[i]) && !isdigit(sent[i]))
+            ++count;
+
+    return count;
+}
+
+int Design::UpperCount(char sent[])
+{
+    int count = 0;
+
+    for(int i = 0; sent[i] != 0; ++i)
+        if(isupper(sent[i]) && isalpha(sent[i]))
+            ++count;
+
+    return count;
+}
+
 void Design::Delay(int a)
 {
     for(int i = 0; i <= a; ++i)
@@ -227,7 +324,7 @@ public:
 
 void Program::Login()
 {
-    char username[20], password[20], pass;
+    char username[50], password[50], pass;
     int p, tries = 0;
 
     /*
@@ -255,9 +352,12 @@ void Program::Login()
 
     //Receives password as input
     p = 0;
-    gotoxy(36, 16);
     while(6 != 9)
     {
+        if(p > 18)
+            gotoxy(54, 16);
+        else
+            gotoxy(36 + p, 16);
         pass = getch();
 
         if(pass == 13)
@@ -267,25 +367,29 @@ void Program::Login()
         }
         else if(pass == 8)
         {
-            if(p == 0)
-                continue;
-
-            gotoxy(35 + p, 16);
-            cout << ' ';
-            gotoxy(35 + p, 16);
-            --p;
-            continue;
+            if(p != 0)
+            {
+                if(p <= 19)
+                {
+                    gotoxy(53 + p, 16);
+                    cout << ' ';
+                }
+                --p;
+                password[p] = 0;
+            }
         }
-        else if(p >= 19)
+        else if(p > 18)
         {
             password[p] = pass;
             ++p;
+            password[p] = 0;
         }
         else
         {
             password[p] = pass;
             cout << '*';
             ++p;
+            password[p] = 0;
         }
     }
 
@@ -444,8 +548,188 @@ void Program::Reports()
 
 void Program::Change_password()
 {
+    int p, number, upper, special;
+    char pass, new_password[50], confirm_password[50], strength[20];
+
     clrscr();
-    cout << "Bruh";
+    Border('*');
+    strcpy(strength, "");
+
+    gotoxy(23, 10);
+    cout << "New Password: ";
+    Box(41, 9, 20, 2, '-');
+    gotoxy(23, 13);
+    cout << "Strength: " << strength;
+    gotoxy(23, 16);
+    cout << "Confirm Password: ";
+    Box(41, 15, 20, 2, '-');
+    gotoxy(16, 19);
+    cout << "- Password should be atleast 8 characters long";
+    gotoxy(16, 20);
+    cout << "- Password should contain atleast one number";
+    gotoxy(16, 21);
+    cout << "- Password should contain atleast one uppercase letter";
+    gotoxy(16, 22);
+    cout << "- Password should contain atleast one special letter";
+
+
+    //Getting new password
+    _newpass:
+    ClearChangePasswordBox();
+    p = 0;
+    strcpy(new_password, "");
+    strcpy(confirm_password, "");
+    strcpy(strength, "");
+    while(6 != 9)
+    {
+        if(p > 18)
+            gotoxy(60, 10);
+        else
+            gotoxy(42 + p, 10);
+        pass = getch();
+
+        if(pass == 13)
+        {
+            new_password[p] = '\0';
+            break;
+        }
+        else if(pass == 8)
+        {
+            if(p != 0)
+            {
+                if(p <= 19)
+                {
+                    gotoxy(41 + p, 10);
+                    cout << ' ';
+                }
+                --p;
+                new_password[p] = 0;
+            }
+        }
+        else if(p > 18)
+        {
+            new_password[p] = pass;
+            ++p;
+            new_password[p] = 0;
+        }
+        else
+        {
+            new_password[p] = pass;
+            cout << '*';
+            ++p;
+            new_password[p] = 0;
+        }
+
+        //Checking and Updating Strength
+        number = NumberCount(new_password);
+        special = SpecialCount(new_password);
+        upper = UpperCount(new_password);
+        if(strlen(new_password) < 8)
+            strcpy(strength, "Very weak");
+        else if(number == 0 && upper == 0 && special == 0)
+            strcpy(strength, "Weak");
+        else if(   (!(number > 0) && upper > 0 && special > 0)
+                || (number > 0 && !(upper > 0) && special > 0)
+                || (number > 0 && upper > 0 && !(special > 0)))
+            strcpy(strength, "Good");
+        else if(number > 1 && upper > 1 && special > 1)
+            strcpy(strength, "Very Strong");
+        else if(   (number > 0 && upper > 1 && special > 1)
+                || (number > 1 && upper > 0 && special > 1)
+                || (number > 1 && upper > 1 && special > 0))
+            strcpy(strength, "Strong");
+        else if(number > 0 && upper > 0 && special > 0)
+            strcpy(strength, "Satisfactory");
+        ClearStrength();
+        gotoxy(23, 13);
+        cout << "Strength: " << strength;
+    }
+
+    //Getting confirmation
+    p = 0;
+    while(6 != 9)
+    {
+        if(p > 18)
+            gotoxy(60, 16);
+        else
+            gotoxy(42 + p, 16);
+        pass = getch();
+
+        if(pass == 13)
+        {
+            confirm_password[p] = '\0';
+            break;
+        }
+        else if(pass == 8)
+        {
+            if(p != 0)
+            {
+                if(p <= 19)
+                {
+                    gotoxy(41 + p, 16);
+                    cout << ' ';
+                }
+                --p;
+                confirm_password[p] = 0;
+            }
+        }
+        else if(p > 18)
+        {
+            confirm_password[p] = pass;
+            ++p;
+            confirm_password[p] = 0;
+        }
+        else
+        {
+            confirm_password[p] = pass;
+            cout << '*';
+            ++p;
+            confirm_password[p] = 0;
+        }
+    }
+
+    //Checking if confirmation is relevant
+    ClearChangePasswordMessage();
+    if(strcmp(new_password, confirm_password))
+    {
+        gotoxy(33, 19);
+        cout << "Passwords don't match";
+        goto _newpass;
+    }
+    else
+    {
+        if(strlen(new_password) < 8)
+        {
+            gotoxy(29, 19);
+            cout << "Password isn't long enough";
+            goto _newpass;
+        }
+        else if(number == 0)
+        {
+            gotoxy(27, 19);
+            cout << "Password doesn't include numbers";
+            goto _newpass;
+        }
+        else if(upper == 0)
+        {
+            gotoxy(22, 19);
+            cout << "Password doesn't include uppercase letters";
+            goto _newpass;
+        }
+        else if(special == 0)
+        {
+            gotoxy(21, 19);
+            cout << "Password doesn't include special characters";
+            goto _newpass;
+        }
+        else
+        {
+            Set_acc_details(Get_username(), new_password);
+            gotoxy(29, 19);
+            cout << "Password change sucessful";
+            Delay(2000);
+        }
+    }
 }
 
 int Program::Exit()
@@ -471,4 +755,6 @@ int main()
     Design D;
     Program P;
 
+    P.Change_password();
+    getch();
 }
