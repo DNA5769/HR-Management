@@ -7,6 +7,10 @@
  *		- Invade Area 51 : Working on it
  *	Text in group for more info on tasks
  *	Also, don't forget to push :)
+ *
+ *	Password in the Program::Login() screen is Watchdog$2key
+ *	You can change this by calling in main() Employee::Set_acc_details(pref_username, pref_password), however
+ *	make sure you update us with the new username and password
  */
 
 Aradhan
@@ -17,3 +21,4 @@ Aradhan
 Noman
 - Work on Program::Add_emp()
 - Work on Program::Main_menu()
+- Add more variables in struct 'sal_info'
