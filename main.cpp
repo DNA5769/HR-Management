@@ -6,8 +6,6 @@
 #include <stdlib.h>
 #include <ctype.h>
 
-using namespace std;
-
 /*  I M P O R T A N T   M E S S A G E
 *   Hey Aradhan and Noman
 *   For Employee::Login()
@@ -252,7 +250,7 @@ void Design::ClearChangePasswordMessage()
 
 void Design::ClearStrength()
 {
-    for(int i = 0; i < 20; ++i)
+    for(int i = 0; i < 50; ++i)
     {
         gotoxy(23 + i, 13);
         cout << ' ';
@@ -358,7 +356,7 @@ void Program::Login()
             gotoxy(54, 16);
         else
             gotoxy(36 + p, 16);
-        pass = getch();
+		  pass = getch();
 
         if(pass == 13)
         {
@@ -371,7 +369,7 @@ void Program::Login()
             {
                 if(p <= 19)
                 {
-                    gotoxy(53 + p, 16);
+                    gotoxy(35 + p, 16);
                     cout << ' ';
                 }
                 --p;
@@ -570,7 +568,7 @@ void Program::Change_password()
     gotoxy(16, 21);
     cout << "- Password should contain atleast one uppercase letter";
     gotoxy(16, 22);
-    cout << "- Password should contain atleast one special letter";
+	 cout << "- Password should contain atleast one special character";
 
 
     //Getting new password
@@ -755,6 +753,6 @@ int main()
     Design D;
     Program P;
 
-    P.Change_password();
+	 P.Login();
     getch();
 }
