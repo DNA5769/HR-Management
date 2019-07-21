@@ -112,12 +112,9 @@ public:
     //Clears login messages
     void ClearStrength();
     //Clears password strength
-    int NumberCount(char sent[]);
-    //Checks number count
-    int UpperCount(char sent[]);
-    //Checks uppercase letter count
-    int SpecialCount(char sent[]);
-    //Checks special character count
+    void Animation_Spiral(char ch, int limit, float delay);
+    //Creates a spiral animation, if limit = 13 then it will take up full screen, delay = 100 is an optimum value
+    //Could be a fun way to display a border
     void Delay(int a);
     //Creates a delay which can be adjusted using 'a'
 };
@@ -257,38 +254,55 @@ void Design::ClearStrength()
     }
 }
 
-int Design::NumberCount(char sent[])
+void Design::Animation_Spiral(char ch, int limit, float delay)
 {
-    int count = 0;
+    int i;
+    int l = 78, d = 24, r = 77, u = 23;
+    int x = 1, y = 1;
 
-    for(int i = 0; sent[i] != 0; ++i)
-        if((sent[i] == '0' || sent[i] == '1' || sent[i] == '2' || sent[i] == '3' || sent[i] == '4' ||
-           sent[i] == '5' || sent[i] == '6' || sent[i] == '7' || sent[i] == '8' || sent[i] == '9') && isdigit(sent[i]))
-            ++count;
+    for(int j = 1; j <= limit; ++j)
+    {
+        if(x != 1 && y != 1)
+        {
+            gotoxy(x, y);
+            cout << ch;
+            Delay(delay);
+        }
 
-    return count;
-}
+        for(i = 1; i <= l; ++i)
+        {
+            gotoxy(x + i, y);
+            cout << ch;
+            Delay(delay);
+        }
+        x += l;
+        for(i = 1; i <= d; ++i)
+        {
+            gotoxy(x, y + i);
+            cout << ch;
+            Delay(delay * 1.5);
+        }
+        y += d;
+        for(i = 1; i <= r; ++i)
+        {
+            gotoxy(x - i, y);
+            cout << ch;
+            Delay(delay);
+        }
+        x -= r;
+        for(i = 1; i <= u; ++i)
+        {
+            gotoxy(x, y - i);
+            cout << ch;
+            Delay(delay * 1.5);
+        }
+        y -= u;
 
-int Design::SpecialCount(char sent[])
-{
-    int count = 0;
-
-    for(int i = 0; sent[i] != 0; ++i)
-        if(!isalpha(sent[i]) && !isdigit(sent[i]))
-            ++count;
-
-    return count;
-}
-
-int Design::UpperCount(char sent[])
-{
-    int count = 0;
-
-    for(int i = 0; sent[i] != 0; ++i)
-        if(isupper(sent[i]) && isalpha(sent[i]))
-            ++count;
-
-    return count;
+        l -= 2;
+        d -= 2;
+        u -= 2;
+        r -= 2;
+    }
 }
 
 void Design::Delay(int a)
@@ -300,7 +314,56 @@ void Design::Delay(int a)
 
                                         ///////////////////////////////////////////
 
-class Program : public Employee, public Design
+class Help
+{
+private:
+protected:
+public:
+    int NumberCount(char sent[]);
+    //Checks number count
+    int UpperCount(char sent[]);
+    //Checks uppercase letter count
+    int SpecialCount(char sent[]);
+    //Checks special character count
+};
+
+int Help::NumberCount(char sent[])
+{
+    int count = 0;
+
+    for(int i = 0; sent[i] != 0; ++i)
+        if((sent[i] == '0' || sent[i] == '1' || sent[i] == '2' || sent[i] == '3' || sent[i] == '4' ||
+           sent[i] == '5' || sent[i] == '6' || sent[i] == '7' || sent[i] == '8' || sent[i] == '9') && isdigit(sent[i]))
+            ++count;
+
+    return count;
+}
+
+int Help::SpecialCount(char sent[])
+{
+    int count = 0;
+
+    for(int i = 0; sent[i] != 0; ++i)
+        if(!isalpha(sent[i]) && !isdigit(sent[i]))
+            ++count;
+
+    return count;
+}
+
+int Help::UpperCount(char sent[])
+{
+    int count = 0;
+
+    for(int i = 0; sent[i] != 0; ++i)
+        if(isupper(sent[i]) && isalpha(sent[i]))
+            ++count;
+
+    return count;
+}
+
+                                        ///////////////////////////////////////////
+
+class Program : public Employee, public Design, public Help
 {
 private:
 protected:
@@ -720,6 +783,12 @@ void Program::Change_password()
             cout << "Password doesn't include special characters";
             goto _newpass;
         }
+        else if(!strcmp(new_password, Get_password()))
+        {
+            gotoxy(21, 19);
+            cout << "New password can't be your old password";
+            goto _newpass;
+        }
         else
         {
             Set_acc_details(Get_username(), new_password);
@@ -753,6 +822,6 @@ int main()
     Design D;
     Program P;
 
-	 P.Login();
+    cout << "I am alone and I need love" << endl;
     getch();
 }
