@@ -6,9 +6,10 @@
  *	Eg 2.	Dennis
  *		- Invade Area 51 : Working on it
  *	Text in group for more info on tasks
- *	Also, don't forget to push :)
+ *	Also, don't forget to pull before pushing :)
  *
- *	Password in the Program::Login() screen is Watchdog$2key
+ *	IMP - Username in the Program::Login() screen is 'ISB'
+ *	IMP - Password in the Program::Login() screen is 'C$Project12345'
  *	You can change this by calling in main() Employee::Set_acc_details(pref_username, pref_password), however
  *	make sure you update us with the new username and password
  */
@@ -17,10 +18,17 @@ Aradhan
 - Work on the class 'Design' by making design functions
 - Decorate Employee::Login()
 - Work on Program::Main_menu() especially design
-- Work on Program::Salary_menu() and Program::Salary_GetDetails()
+- Work on Program::Search_menu(), Program::Search_empno(), Program::Search_name(), Program::Search_dept()
 - Add more variables in struct 'sal_info'
 
 Noman
-- Work on Program::Add_emp()bla
-- Work on Program::Main_menu()
+- Work on Program::Add_emp()
+- Add more variables in struct 'sal_info'
+
+Kassim
+- Work on void Program::Salary_menu(), Program::Salary_GetDetails(), Program::Salary_slip()
+- Add more variables in struct 'sal_info'
+
+Madesh
+- Work on Program::Reports()
 - Add more variables in struct 'sal_info'

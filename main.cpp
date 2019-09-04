@@ -13,7 +13,7 @@
 *   Password - Watchdog$2key
 *   - Sasuke Uchiha
 */
-              
+
 class Employee
 {
 private:
@@ -112,9 +112,12 @@ public:
     //Clears login messages
     void ClearStrength();
     //Clears password strength
-    void Animation_Spiral(char ch, int limit, float delay);
-    //Creates a spiral animation, if limit = 13 then it will take up full screen, delay = 100 is an optimum value
-    //Could be a fun way to display a border
+    int NumberCount(char sent[]);
+    //Checks number count
+    int UpperCount(char sent[]);
+    //Checks uppercase letter count
+    int SpecialCount(char sent[]);
+    //Checks special character count
     void Delay(int a);
     //Creates a delay which can be adjusted using 'a'
 };
@@ -238,7 +241,7 @@ void Design::ClearChangePasswordMessage()
         gotoxy(16 + i, 21);
         cout << ' ';
     }
-    for(i = 0; i < 54; ++i)
+	 for(i = 0; i < 55; ++i)
     {
         gotoxy(16 + i, 22);
         cout << ' ';
@@ -254,80 +257,7 @@ void Design::ClearStrength()
     }
 }
 
-void Design::Animation_Spiral(char ch, int limit, float delay)
-{
-    int i;
-    int l = 78, d = 24, r = 77, u = 23;
-    int x = 1, y = 1;
-
-    for(int j = 1; j <= limit; ++j)
-    {
-        if(x != 1 && y != 1)
-        {
-            gotoxy(x, y);
-            cout << ch;
-            Delay(delay);
-        }
-
-        for(i = 1; i <= l; ++i)
-        {
-            gotoxy(x + i, y);
-            cout << ch;
-            Delay(delay);
-        }
-        x += l;
-        for(i = 1; i <= d; ++i)
-        {
-            gotoxy(x, y + i);
-            cout << ch;
-            Delay(delay * 1.5);
-        }
-        y += d;
-        for(i = 1; i <= r; ++i)
-        {
-            gotoxy(x - i, y);
-            cout << ch;
-            Delay(delay);
-        }
-        x -= r;
-        for(i = 1; i <= u; ++i)
-        {
-            gotoxy(x, y - i);
-            cout << ch;
-            Delay(delay * 1.5);
-        }
-        y -= u;
-
-        l -= 2;
-        d -= 2;
-        u -= 2;
-        r -= 2;
-    }
-}
-
-void Design::Delay(int a)
-{
-    for(int i = 0; i <= a; ++i)
-        for(int j = 0; j <= a; ++j)
-            cout << "";
-}
-
-                                        ///////////////////////////////////////////
-
-class Help
-{
-private:
-protected:
-public:
-    int NumberCount(char sent[]);
-    //Checks number count
-    int UpperCount(char sent[]);
-    //Checks uppercase letter count
-    int SpecialCount(char sent[]);
-    //Checks special character count
-};
-
-int Help::NumberCount(char sent[])
+int Design::NumberCount(char sent[])
 {
     int count = 0;
 
@@ -339,7 +269,7 @@ int Help::NumberCount(char sent[])
     return count;
 }
 
-int Help::SpecialCount(char sent[])
+int Design::SpecialCount(char sent[])
 {
     int count = 0;
 
@@ -350,7 +280,7 @@ int Help::SpecialCount(char sent[])
     return count;
 }
 
-int Help::UpperCount(char sent[])
+int Design::UpperCount(char sent[])
 {
     int count = 0;
 
@@ -361,9 +291,16 @@ int Help::UpperCount(char sent[])
     return count;
 }
 
+void Design::Delay(int a)
+{
+    for(int i = 0; i <= a; ++i)
+        for(int j = 0; j <= a; ++j)
+            cout << "";
+}
+
                                         ///////////////////////////////////////////
 
-class Program : public Employee, public Design, public Help
+class Program : public Employee, public Design
 {
 private:
 protected:
@@ -432,7 +369,7 @@ void Program::Login()
             {
                 if(p <= 19)
                 {
-                    gotoxy(35 + p, 16);
+						  gotoxy(35 + p, 16);
                     cout << ' ';
                 }
                 --p;
@@ -456,7 +393,7 @@ void Program::Login()
 
     //Checking login details
     ClearLoginMessage();
-    if(!strcmp(username, Get_username()) && !strcmp(password, Get_password()))
+	 if(!strcmp(username, Get_username()) && !strcmp(password, Get_password()))
     {
         gotoxy(35, 19);
         Main_menu();
@@ -465,12 +402,12 @@ void Program::Login()
     {
         tries++;
 
-        if(strcmp(username, "Reee"))
-        {
+		  if(strcmp(username, Get_username()))
+		  {
             gotoxy(33, 19);
             cout << "Username not found";
         }
-        else
+		  else if(strcmp(password, Get_password()))
         {
             gotoxy(32, 19);
             cout << "Password is incorrect";
@@ -485,7 +422,7 @@ void Program::Login()
         }
 
         gotoxy(32, 20);
-        cout << "You have " << 6 - tries << " tries left";
+		  cout << "You have " << 6 - tries << " tries left";
         goto _pass;
     }
 }
@@ -550,61 +487,74 @@ void Program::Main_menu()
 
 void Program::Add_emp()
 {
-    /*
-     *  Hey Noman,
-     *  Write the code for adding an employee here
-     *  Create an input function in class Employee
-     *  And use that to ass employees
-     *  - Sasuke Uchiha
-     */
+	clrscr();
+	/*
+	 *  Hey Noman,
+	 *  Write the code for adding an employee here
+	 *  Create an input function in class Employee
+	 *  And use that to add employees
+	 *  - Sasuke Uchiha
+	 */
 }
 
 void Program::Search_menu()
 {
-    clrscr();
-    cout << "Bruh";
+	 clrscr();
+	/*
+	 *  Hey Aradhan,
+	 *  Write the code of a search employee MENU here similar to Main Menu
+	 *  Where user can enter numbers and choose their method of searching employee
+	 *  Create necessary functions in Employee
+	 *  - Sasuke Uchiha
+	 */
 }
 
 void Program::Search_empno()
 {
-    clrscr();
-    cout << "Bruh";
+	 clrscr();
 }
 
 void Program::Search_name()
 {
-    clrscr();
-    cout << "Bruh";
+	 clrscr();
 }
 
 void Program::Search_dept()
 {
-    clrscr();
-    cout << "Bruh";
+	 clrscr();
 }
 
 void Program::Salary_menu()
 {
-    clrscr();
-    cout << "Bruh";
+	 clrscr();
+	/*
+	 *  Hey Kassim,
+	 *  Write the code of a salary MENU here similar to Main Menu
+	 *  Where user can enter numbers and choose either Details or Salary Slip
+	 *  Create necessary functions in Employee
+	 *  - Sasuke Uchiha
+	 */
 }
 
 void Program::Salary_GetDetails()
 {
-    clrscr();
-    cout << "Bruh";
+	 clrscr();
 }
 
 void Program::Salary_slip()
 {
-    clrscr();
-    cout << "Bruh";
+	 clrscr();
 }
 
 void Program::Reports()
 {
     clrscr();
-    cout << "Bruh";
+	/*
+	 *  Hey Madesh,
+	 *  Write the code for creating a tabular representation of every detail of every employee
+	 *  Create an input function in class Employee
+	 *  - Sasuke Uchiha
+	 */
 }
 
 void Program::Change_password()
@@ -783,12 +733,6 @@ void Program::Change_password()
             cout << "Password doesn't include special characters";
             goto _newpass;
         }
-        else if(!strcmp(new_password, Get_password()))
-        {
-            gotoxy(21, 19);
-            cout << "New password can't be your old password";
-            goto _newpass;
-        }
         else
         {
             Set_acc_details(Get_username(), new_password);
@@ -822,6 +766,6 @@ int main()
     Design D;
     Program P;
 
-    cout << "I am alone and I need love" << endl;
-    getch();
+	 P.Login();
+	 getch();
 }
