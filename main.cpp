@@ -7,10 +7,9 @@
 #include <ctype.h>
 
 /*  I M P O R T A N T   M E S S A G E
-*   Hey Aradhan and Noman
 *   For Employee::Login()
-*   Username - Batman
-*   Password - Watchdog$2key
+*   Username - ISB
+*   Password - cs
 *   - Sasuke Uchiha
 */
 
@@ -101,8 +100,10 @@ public:
     void Border(char ch);
     //Creates a border using specified character 'ch'
     void Box(int x, int y, int l, int b, char ch);
-    //Creates a box on (x ,y) coordinate of specified character 'ch' and dimensions lxb
-    void ClearLoginBox();
+	//Creates a box on (x ,y) coordinate of specified character 'ch' and dimensions lxb
+	void Line(int x1, int x2, int y, char ch);
+	//Creates a line from (x1, y) to (x2, y) of specified character 'ch'
+	void ClearLoginBox();
     //Clears login details entry boxes
     void ClearLoginMessage();
     //Clears login messages
@@ -111,33 +112,78 @@ public:
     void ClearChangePasswordMessage();
     //Clears login messages
     void ClearStrength();
-    //Clears password strength
-    int NumberCount(char sent[]);
-    //Checks number count
-    int UpperCount(char sent[]);
-    //Checks uppercase letter count
-    int SpecialCount(char sent[]);
-    //Checks special character count
+	//Clears password strength
+	void Animation_Spiral(int limit, float delay, char ch);
+    //Creates a spiral animation, if limit = 13 then it will take up full screen, delay = 100 is an optimum value
+	//Could be a fun way to display a border
     void Delay(int a);
     //Creates a delay which can be adjusted using 'a'
 };
 
 void Design::Border(char ch)
 {
-    for(int i = 2; i <= 78; ++i)
-    {
-        gotoxy(i, 2);
+	for(int i = 2; i <= 79; ++i)
+	{
+		gotoxy(i, 1);
+		cout << ch;
+		gotoxy(i, 25);
+		cout << ch;
+	}
+	for(int j = 2; j <= 24; ++j)
+	{
+		gotoxy(2, j);
         cout << ch;
-        gotoxy(i, 24);
+		gotoxy(79, j);
         cout << ch;
     }
-    for(int j = 2; j <= 24; ++j)
-    {
-        gotoxy(2, j);
-        cout << ch;
-        gotoxy(78, j);
-        cout << ch;
-    }
+}
+
+void Design::Box(int x, int y, int l, int b, char ch)
+{
+	if(ch == '-')
+	{
+		for(int i = 1; i < l; ++i)
+		{
+			gotoxy(x + i, y);
+			cout << ch;
+			gotoxy(x + i, y + b);
+			cout << ch;
+		}
+		ch = '|';
+		for(int j = 1; j < b; ++j)
+		{
+			gotoxy(x, y + j);
+			cout << ch;
+			gotoxy(x + l, y + j);
+			cout << ch;
+		}
+	}
+	else
+	{
+		for(int i = 0; i <= l; ++i)
+		{
+			gotoxy(x + i, y);
+			cout << ch;
+			gotoxy(x + i, y + b);
+			cout << ch;
+		}
+		for(int j = 0; j <= b; ++j)
+		{
+			gotoxy(x, y + j);
+			cout << ch;
+			gotoxy(x + l, y + j);
+			cout << ch;
+		}
+	}
+}
+
+void Design::Line(int x1, int x2, int y, char ch)
+{
+	for(int i = x1; i <= x2; ++i)
+	{
+		gotoxy(i, y);
+		cout << ch;
+	}
 }
 
 void Design::ClearLoginBox()
@@ -165,46 +211,7 @@ void Design::ClearLoginMessage()
     {
         gotoxy(30 + j, 20);
         cout << ' ';
-    }
-}
-
-void Design::Box(int x, int y, int l, int b, char ch)
-{
-    if(ch == '-')
-    {
-        for(int i = 1; i < l; ++i)
-        {
-            gotoxy(x + i, y);
-            cout << ch;
-            gotoxy(x + i, y + b);
-            cout << ch;
-        }
-        ch = '|';
-        for(int j = 1; j < b; ++j)
-        {
-            gotoxy(x, y + j);
-            cout << ch;
-            gotoxy(x + l, y + j);
-            cout << ch;
-        }
-    }
-    else
-    {
-        for(int i = 0; i <= l; ++i)
-        {
-            gotoxy(x + i, y);
-            cout << ch;
-            gotoxy(x + i, y + b);
-            cout << ch;
-        }
-        for(int j = 0; j <= b; ++j)
-        {
-            gotoxy(x, y + j);
-            cout << ch;
-            gotoxy(x + l, y + j);
-            cout << ch;
-        }
-    }
+	}
 }
 
 void Design::ClearChangePasswordBox()
@@ -257,7 +264,80 @@ void Design::ClearStrength()
     }
 }
 
-int Design::NumberCount(char sent[])
+void Design::Animation_Spiral(int limit, float delay, char ch)
+{
+	int i;
+    int l = 78, d = 24, r = 77, u = 23;
+    int x = 1, y = 1;
+
+    for(int j = 1; j <= limit; ++j)
+    {
+        if(x != 1 && y != 1)
+        {
+            gotoxy(x, y);
+            cout << ch;
+            Delay(delay);
+        }
+
+        for(i = 1; i <= l; ++i)
+        {
+            gotoxy(x + i, y);
+            cout << ch;
+            Delay(delay);
+        }
+        x += l;
+        for(i = 1; i <= d; ++i)
+        {
+            gotoxy(x, y + i);
+            cout << ch;
+            Delay(delay * 1.5);
+        }
+        y += d;
+        for(i = 1; i <= r; ++i)
+        {
+            gotoxy(x - i, y);
+            cout << ch;
+            Delay(delay);
+        }
+        x -= r;
+        for(i = 1; i <= u; ++i)
+        {
+            gotoxy(x, y - i);
+            cout << ch;
+            Delay(delay * 1.5);
+        }
+        y -= u;
+
+        l -= 2;
+        d -= 2;
+        u -= 2;
+        r -= 2;
+    }
+}
+
+void Design::Delay(int a)
+{
+    for(int i = 0; i <= a; ++i)
+        for(int j = 0; j <= a; ++j)
+            cout << "";
+}
+
+										///////////////////////////////////////////
+
+class Help
+{
+private:
+protected:
+public:
+    int NumberCount(char sent[]);
+    //Checks number count
+    int UpperCount(char sent[]);
+    //Checks uppercase letter count
+    int SpecialCount(char sent[]);
+    //Checks special character count
+};
+
+int Help::NumberCount(char sent[])
 {
     int count = 0;
 
@@ -269,7 +349,7 @@ int Design::NumberCount(char sent[])
     return count;
 }
 
-int Design::SpecialCount(char sent[])
+int Help::SpecialCount(char sent[])
 {
     int count = 0;
 
@@ -280,7 +360,7 @@ int Design::SpecialCount(char sent[])
     return count;
 }
 
-int Design::UpperCount(char sent[])
+int Help::UpperCount(char sent[])
 {
     int count = 0;
 
@@ -291,16 +371,9 @@ int Design::UpperCount(char sent[])
     return count;
 }
 
-void Design::Delay(int a)
-{
-    for(int i = 0; i <= a; ++i)
-        for(int j = 0; j <= a; ++j)
-            cout << "";
-}
+										///////////////////////////////////////////
 
-                                        ///////////////////////////////////////////
-
-class Program : public Employee, public Design
+class Program : public Employee, public Design, public Help
 {
 private:
 protected:
@@ -312,9 +385,10 @@ public:
     void Search_empno();
     void Search_name();
     void Search_dept();
-    void Salary_menu();
+	void Salary_menu();
     void Salary_GetDetails();
-    void Salary_slip();
+	void Salary_slip();
+	void Modify_menu();
     void Reports();
     void Change_password();
     int Exit();
@@ -333,9 +407,9 @@ void Program::Login()
      *  - Sasuke Uchiha
      */
 
-    //Display
-    Border('*');
-    gotoxy(25, 13);
+	//Display
+	Animation_Spiral(1, 100, '*');
+	gotoxy(25, 13);
     cout << "Username: ";
     Box(35, 12, 20, 2, '-');
     gotoxy(25, 16);
@@ -442,15 +516,17 @@ void Program::Main_menu()
         gotoxy(32, 11);
         cout << "2. Search Employee";
         gotoxy(32, 12);
-        cout << "3. Salary";
+		  cout << "3. Salary Slip";
         gotoxy(32, 13);
-        cout << "4. Reports";
-        gotoxy(32, 14);
-        cout << "5. Change Password";
-        gotoxy(32, 15);
-        cout << "6. Exit";
+		  cout << "4. Modify Details";
+		  gotoxy(32, 14);
+		  cout << "5. Reports";
+		  gotoxy(32, 15);
+		  cout << "6. Change Password";
+		  gotoxy(32, 16);
+		  cout << "7. Exit";
 
-        gotoxy(30, 17);
+		  gotoxy(30, 18);
         cout << "Choose an option: ";
         cin >> option;
 
@@ -464,25 +540,28 @@ void Program::Main_menu()
             break;
         case 3:
             Salary_menu();
-            break;
-        case 4:
-            Reports();
-            break;
-        case 5:
-            Change_password();
-            break;
-        case 6:
-            if(!Exit())         //If user says 'No' while exit confirmation, it returns 0 and displays menu
+				break;
+		  case 4:
+				Modify_menu();
+				break;
+		  case 5:
+				Reports();
+				break;
+		  case 6:
+				Change_password();
+				break;
+		  case 7:
+				if(!Exit())         //If user says 'No' while exit confirmation, it returns 0 and displays menu
                 goto _menu;
             break;
         default:
-            gotoxy(30, 18);
+				gotoxy(30, 19);
             cout << "Invalid option!!!";
             Delay(2000);
             goto _menu;
         }
 
-    }while(option != 6);
+	 }while(option != 7);
 }
 
 void Program::Add_emp()
@@ -542,6 +621,11 @@ void Program::Salary_GetDetails()
 }
 
 void Program::Salary_slip()
+{
+	 clrscr();
+}
+
+void Program::Modify_menu()
 {
 	 clrscr();
 }
@@ -632,7 +716,7 @@ void Program::Change_password()
         }
 
         //Checking and Updating Strength
-        number = NumberCount(new_password);
+		number = NumberCount(new_password);
         special = SpecialCount(new_password);
         upper = UpperCount(new_password);
         if(strlen(new_password) < 8)
@@ -748,24 +832,24 @@ int Program::Exit()
     char response[3];
 
     gotoxy(25, 18);
-    cout << "Are you sure you want to exit?";
+	 cout << "Are you sure you want to exit? (Y/N)";
     gotoxy(37, 19);
     gets(response);
 
-    if(!strcmpi(response, "Yes") || !strcmpi(response, "Y"))
+	 if(!strcmpi(response, "Y"))
         exit(0);
-    else if(!strcmpi(response, "No") || !strcmpi(response, "N"))
-        return 0;
+	 else if(strcmpi(response, "N"))
+		  return 0;
 }
 
                                         ///////////////////////////////////////////
 
 int main()
 {
-    Employee E;
+	Employee E;
     Design D;
     Program P;
 
-	 P.Login();
-	 getch();
+	P.Login();
+	getch();
 }

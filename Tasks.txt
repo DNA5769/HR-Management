@@ -9,7 +9,7 @@
  *	Also, don't forget to pull before pushing :)
  *
  *	IMP - Username in the Program::Login() screen is 'ISB'
- *	IMP - Password in the Program::Login() screen is 'C$Project12345'
+ *	IMP - Password in the Program::Login() screen is 'cs'
  *	You can change this by calling in main() Employee::Set_acc_details(pref_username, pref_password), however
  *	make sure you update us with the new username and password
  */
