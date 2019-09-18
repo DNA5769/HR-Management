@@ -13,6 +13,12 @@
 *   - Sasuke Uchiha
 */
 
+struct Login_details
+{
+	char username[20];
+	char password[20];
+};
+
 class Employee
 {
 private:
@@ -21,20 +27,16 @@ private:
     int age;
     long telno;
     char desig[10];
-    char dept[10];
+	char dept[10];
+
     struct sal_info
     {
         float basic;
         float HRA;
         float DA;
         float tax;
-    }sal;
+	}sal;
 protected:
-    struct login_details
-    {
-        char username[20];
-        char password[20];
-    }acc;
 public:
     char* Get_username();
     //Returns username
@@ -52,7 +54,9 @@ public:
 
 char* Employee::Get_username()
 {
-    fstream f;
+	Login_details acc;
+
+	fstream f;
     f.open("Account.dat", ios::in | ios::binary);
 
     f.read((char*)&acc, sizeof(acc));
@@ -62,6 +66,8 @@ char* Employee::Get_username()
 
 char* Employee::Get_password()
 {
+	Login_details acc;
+
     fstream f;
     f.open("Account.dat", ios::in | ios::binary);
 
@@ -72,6 +78,8 @@ char* Employee::Get_password()
 
 void Employee::Set_acc_details(char username[], char password[])
 {
+	Login_details acc;
+
     fstream f;
     f.open("Account.dat", ios::out | ios::binary);
 
