@@ -13,12 +13,6 @@
 *   - Sasuke Uchiha
 */
 
-struct Login_details
-{
-	char username[20];
-	char password[20];
-};
-
 class Employee
 {
 private:
@@ -30,12 +24,21 @@ private:
 	char dept[10];
 
     struct sal_info
-    {
-        float basic;
-        float HRA;
-        float DA;
-        float tax;
+	{
+		float basic;
+		float HRA;
+		float DA;
+		float tax;
+		float TA;
+		float MA;
+		float PF;
 	}sal;
+
+	struct login_details
+	{
+		char username[20];
+		char password[20];
+	}acc;
 protected:
 public:
     char* Get_username();
@@ -54,8 +57,6 @@ public:
 
 char* Employee::Get_username()
 {
-	Login_details acc;
-
 	fstream f;
     f.open("Account.dat", ios::in | ios::binary);
 
@@ -66,8 +67,6 @@ char* Employee::Get_username()
 
 char* Employee::Get_password()
 {
-	Login_details acc;
-
     fstream f;
     f.open("Account.dat", ios::in | ios::binary);
 
@@ -78,8 +77,6 @@ char* Employee::Get_password()
 
 void Employee::Set_acc_details(char username[], char password[])
 {
-	Login_details acc;
-
     fstream f;
     f.open("Account.dat", ios::out | ios::binary);
 
@@ -125,7 +122,9 @@ public:
     //Creates a spiral animation, if limit = 13 then it will take up full screen, delay = 100 is an optimum value
 	//Could be a fun way to display a border
     void Delay(int a);
-    //Creates a delay which can be adjusted using 'a'
+	//Creates a delay which can be adjusted using 'a'
+    void Intro(int x, int y);
+	//Creates a small welcome sign
 };
 
 void Design::Border(char ch)
@@ -330,6 +329,17 @@ void Design::Delay(int a)
             cout << "";
 }
 
+void Design::Intro(int x, int y)
+{
+	char sign[]="WELCOME";
+	for(int a=0;a<7;a++)
+	{
+		Delay(1024);
+		gotoxy(x + a, y);
+		cout << sign[a];
+	}
+}
+
 										///////////////////////////////////////////
 
 class Help
@@ -397,7 +407,7 @@ public:
     void Salary_GetDetails();
 	void Salary_slip();
 	void Modify_menu();
-    void Reports();
+	void Reports();
     void Change_password();
     int Exit();
 };
@@ -405,7 +415,9 @@ public:
 void Program::Login()
 {
     char username[50], password[50], pass;
-    int p, tries = 0;
+	int p, tries = 0;
+
+	Intro(38,8);
 
     /*
      *  Hey Aradhan,
@@ -451,7 +463,7 @@ void Program::Login()
             {
                 if(p <= 19)
                 {
-						  gotoxy(35 + p, 16);
+					gotoxy(35 + p, 16);
                     cout << ' ';
                 }
                 --p;
@@ -476,98 +488,158 @@ void Program::Login()
     //Checking login details
     ClearLoginMessage();
 	 if(!strcmp(username, Get_username()) && !strcmp(password, Get_password()))
-    {
-        gotoxy(35, 19);
-        Main_menu();
-    }
-    else
-    {
-        tries++;
+	{
+		gotoxy(35, 19);
+		Main_menu();
+	}
+	else
+	{
+		tries++;
 
 		  if(strcmp(username, Get_username()))
 		  {
-            gotoxy(33, 19);
-            cout << "Username not found";
-        }
+			gotoxy(33, 19);
+			cout << "Username not found";
+		}
 		  else if(strcmp(password, Get_password()))
-        {
-            gotoxy(32, 19);
-            cout << "Password is incorrect";
-        }
+		{
+			gotoxy(32, 19);
+			cout << "Password is incorrect";
+		}
 
-        if(tries == 6)
-        {
-            gotoxy(33, 20);
-            cout << "Access Unauthorized!";
-            Delay(4000);
-            exit(0);
-        }
+		if(tries == 6)
+		{
+			gotoxy(33, 20);
+			cout << "Access Unauthorized!";
+			Delay(4000);
+			exit(0);
+		}
 
-        gotoxy(32, 20);
+		gotoxy(32, 20);
 		  cout << "You have " << 6 - tries << " tries left";
-        goto _pass;
-    }
+		goto _pass;
+	}
 }
 
 void Program::Main_menu()
 {
-    int option;
+	int selection, option = 49, init_msg_check = 0;
 
-    do
-    {
-        //Display Menu
-        _menu:
-        clrscr();
-        Border('*');
-        gotoxy(32, 10);
-        cout << "1. Add Employee";
-        gotoxy(32, 11);
-        cout << "2. Search Employee";
-        gotoxy(32, 12);
-		  cout << "3. Salary Slip";
-        gotoxy(32, 13);
-		  cout << "4. Modify Details";
-		  gotoxy(32, 14);
-		  cout << "5. Reports";
-		  gotoxy(32, 15);
-		  cout << "6. Change Password";
-		  gotoxy(32, 16);
-		  cout << "7. Exit";
+	do
+	{
+		//Display Menu
+		_menu:
+		clrscr();
+		if(init_msg_check == 0)
+		{
+			gotoxy(20, 22);
+			cout << "Scroll through options 1-7 and press enter";
+			init_msg_check = 1;
+		}
+		_invalid:          //So that screen doesn't get cleared if we use invalid selections
+		Border('*');
+		Box(28, 6, 24, 14, '!');
 
-		  gotoxy(30, 18);
-        cout << "Choose an option: ";
-        cin >> option;
+		switch(option)
+		{
+		case 49:
+			Line(29, 51, 8, '*');
+			gotoxy(29, 7);
+			cout << "->";
+			break;
+		case 50:
+			Line(29, 51, 8, '*');
+			Line(29, 51, 10, '*');
+			gotoxy(29, 9);
+			cout << "->";
+			break;
+		case 51:
+			Line(29, 51, 10, '*');
+			Line(29, 51, 12, '*');
+			gotoxy(29, 11);
+			cout << "->";
+			break;
+		case 52:
+			Line(29, 51, 12, '*');
+			Line(29, 51, 14, '*');
+			gotoxy(29, 13);
+			cout << "->";
+			break;
+		case 53:
+			Line(29, 51, 14, '*');
+			Line(29, 51, 16, '*');
+			gotoxy(29, 15);
+			cout << "->";
+			break;
+		case 54:
+			Line(29, 51, 16, '*');
+			Line(29, 51, 18, '*');
+			gotoxy(29, 17);
+			cout << "->";
+			break;
+		case 55:
+			Line(29, 51, 18, '*');
+			gotoxy(29, 19);
+			cout << "->";
+			break;
+		}
 
-        switch(option)
-        {
-        case 1:
-            Add_emp();
-            break;
-        case 2:
-            Search_menu();
-            break;
-        case 3:
-            Salary_menu();
+		gotoxy(32, 7);
+		cout << "1. Add Employee";
+		gotoxy(32, 9);
+		cout << "2. Search Employee";
+		gotoxy(32, 11);
+		cout << "3. Salary Slip";
+		gotoxy(32, 13);
+		cout << "4. Modify Details";
+		gotoxy(32, 15);
+		cout << "5. Reports";
+		gotoxy(32, 17);
+		cout << "6. Change Password";
+		gotoxy(32, 19);
+		cout << "7. Exit";
+
+		gotoxy(100, 100);    //So that the cursor isnt visible on the screen
+		selection = getch();
+
+		if(selection == 13)
+		{
+			switch(option)
+			{
+			case 49:
+				Add_emp();
+				goto _menu;
 				break;
-		  case 4:
+			case 50:
+				Search_menu();
+				goto _menu;
+				break;
+			case 51:
+				Salary_menu();
+				goto _menu;
+				break;
+			case 52:
 				Modify_menu();
+				goto _menu;
 				break;
-		  case 5:
+			case 53:
 				Reports();
 				break;
-		  case 6:
+			case 54:
 				Change_password();
+				goto _menu;
 				break;
-		  case 7:
+			case 55:
 				if(!Exit())         //If user says 'No' while exit confirmation, it returns 0 and displays menu
-                goto _menu;
-            break;
-        default:
-				gotoxy(30, 19);
-            cout << "Invalid option!!!";
-            Delay(2000);
-            goto _menu;
-        }
+					goto _menu;
+				break;
+			}
+		}
+
+		if(selection >= 49 && selection <= 55)
+			option = selection;
+		else
+			goto _invalid;
 
 	 }while(option != 7);
 }
@@ -839,14 +911,14 @@ int Program::Exit()
 {
     char response[3];
 
-    gotoxy(25, 18);
-	 cout << "Are you sure you want to exit? (Y/N)";
-    gotoxy(37, 19);
+	gotoxy(22, 22);
+	 cout << "Are you sure you want to exit? (Yes/No)";
+	gotoxy(37, 23);
     gets(response);
 
-	 if(!strcmpi(response, "Y"))
+	 if(!strcmpi(response, "Yes") || !strcmpi(response, "Y"))
         exit(0);
-	 else if(strcmpi(response, "N"))
+	 else if(!strcmpi(response, "No") || !strcmpi(response, "N"))
 		  return 0;
 }
 
