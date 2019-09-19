@@ -18,7 +18,7 @@ Aradhan
 - Work on the class 'Design' by making design functions
 - Decorate Employee::Login()
 - Work on Program::Main_menu() especially design
-- Work on Program::Search_menu(), Program::Search_empno(), Program::Search_name(), Program::Search_dept()
+- Work on Program::Search_menu(), Program::Search_empno(), Program::Search_name(), Program::Search_dept() // i did something
 - Add more variables in struct 'sal_info'
 
 Noman
