@@ -16,9 +16,9 @@
 class Employee
 {
 private:
-    int empno;
+	int empID;
     char name[20];
-	 int age;
+	int age;
     long telno;
     char desig[10];
 	char dept[10];
@@ -47,7 +47,7 @@ public:
     //Returns password
 	 void Set_acc_details(char username[], char password[]);
     //Sets username and password
-    int Get_empno();
+    int Get_empID();
 	 //Returns empno
     char* Get_name();
     //Returns name
@@ -60,7 +60,8 @@ char* Employee::Get_username()
 	fstream f;
     f.open("Account.dat", ios::in | ios::binary);
 
-	 f.read((char*)&acc, sizeof(acc));
+	f.read((char*)&acc, sizeof(acc));
+	f.close();
 
     return acc.username;
 }
@@ -70,7 +71,8 @@ char* Employee::Get_password()
     fstream f;
     f.open("Account.dat", ios::in | ios::binary);
 
-    f.read((char*)&acc, sizeof(acc));
+	f.read((char*)&acc, sizeof(acc));
+	f.close();
 
 	 return acc.password;
 }
@@ -83,11 +85,12 @@ void Employee::Set_acc_details(char username[], char password[])
     strcpy(acc.username, username);
 	 strcpy(acc.password, password);
 
-    f.write((char*)&acc, sizeof(acc));
+	f.write((char*)&acc, sizeof(acc));
+	f.close();
 }
 
-int Employee::Get_empno()
-{return empno;}
+int Employee::Get_empID()
+{return empID;}
 
 char* Employee::Get_name()
 {return name;}
@@ -123,7 +126,7 @@ public:
 	//Could be a fun way to display a border
     void Delay(int a);
 	//Creates a delay which can be adjusted using 'a'
-	 void Intro(int x, int y);
+	 void Delayed_text(int x, int y, char string[]);
 	//Creates a small welcome sign
 	void Star_top_L();
 	void Star_top_R();
@@ -229,12 +232,12 @@ void Design::ClearChangePasswordBox()
 {
     for(int i = 0; i < 19; ++i)
 	 {
-        gotoxy(42 + i, 10);
+		gotoxy(42 + i, 8);
         cout << ' ';
 	 }
     for(int j = 0; j < 19; ++j)
     {
-		  gotoxy(42 + j, 16);
+		  gotoxy(42 + j, 14);
         cout << ' ';
     }
 }
@@ -246,22 +249,22 @@ void Design::ClearChangePasswordMessage()
 	 //Clears long message
     for(i = 0; i < 54; ++i)
     {
-		  gotoxy(16 + i, 19);
+		  gotoxy(16 + i, 17);
         cout << ' ';
     }
 	 for(i = 0; i < 54; ++i)
     {
-        gotoxy(16 + i, 20);
+		gotoxy(16 + i, 18);
 		  cout << ' ';
     }
     for(i = 0; i < 54; ++i)
 	 {
-        gotoxy(16 + i, 21);
+		gotoxy(16 + i, 19);
         cout << ' ';
 	 }
 	 for(i = 0; i < 55; ++i)
     {
-		  gotoxy(16 + i, 22);
+		  gotoxy(16 + i, 20);
         cout << ' ';
     }
 }
@@ -270,7 +273,7 @@ void Design::ClearStrength()
 {
     for(int i = 0; i < 50; ++i)
     {
-		  gotoxy(23 + i, 13);
+		  gotoxy(23 + i, 11);
         cout << ' ';
     }
 }
@@ -333,14 +336,13 @@ void Design::Delay(int a)
 				cout << "";
 }
 
-void Design::Intro(int x, int y)
+void Design::Delayed_text(int x, int y, char string[])
 {
-	char sign[]="WELCOME";
-	for(int a=0;a<7;a++)
+	for(int a=0; string[a] != 0;a++)
 	{
 		Delay(1024);
 		gotoxy(x + a, y);
-		cout << sign[a];
+		cout << string[a];
 
 	}
 }
@@ -487,7 +489,7 @@ public:
 	void Salary_slip();
 	void Modify_menu();
 	void Reports();
-    void Change_password();
+	int Change_password();
     int Exit();
 };
 
@@ -496,7 +498,7 @@ void Program::Login()
     char username[50], password[50], pass;
 	int p, tries = 0;
 
-	Intro(38,8);
+	Delayed_text(38, 8, "WELCOME");
 
 	 /*
      *  Hey Aradhan,
@@ -602,7 +604,7 @@ void Program::Login()
 
 void Program::Main_menu()
 {
-	int selection, option = 49, init_msg_check = 0;
+	int selection, option = 49;
 
 	do
 	{
@@ -613,12 +615,9 @@ void Program::Main_menu()
 		Star_top_L();
 		Star_bottom_L();
 		Star_bottom_R();
-		if(init_msg_check == 0)
-		{
-			gotoxy(20, 22);
-			cout << "Scroll through options 1-7 and press enter";
-			init_msg_check = 1;
-		}
+		gotoxy(20, 22);
+		cout << "Scroll through options 1-7 and press enter";
+
 		_invalid:          //So that screen doesn't get cleared if we use invalid selections
 		Border('*');
 		Box(28, 6, 24, 14, '!');
@@ -707,10 +706,10 @@ void Program::Main_menu()
 				break;
 			case 53:
 				Reports();
+				goto _menu;
 				break;
 			case 54:
 				Change_password();
-				goto _menu;
 				break;
 			case 55:
 				if(!Exit())         //If user says 'No' while exit confirmation, it returns 0 and displays menu
@@ -718,8 +717,7 @@ void Program::Main_menu()
 				break;
 			}
 		}
-
-		if(selection >= 49 && selection <= 55)
+		else if(selection >= 49 && selection <= 55)
 			option = selection;
 		else
 			goto _invalid;
@@ -790,7 +788,32 @@ void Program::Salary_slip()
 
 void Program::Modify_menu()
 {
+	 fstream f_find;
+	 Employee E;
+	 int ID;
+
 	 clrscr();
+	 Border('*');
+
+	 Line(3, 78, 4, '_');
+     gotoxy(35, 3);
+	 cout << "Modify Details";
+
+	 Line(3, 78, 11, '*');
+	 Line(3, 78, 16, '*');
+	 gotoxy(7, 13);
+	 cout << "Enter Employee ID of the employee whose details are to be modified:\n";
+	 gotoxy(39, 14);
+	 cin >> ID;
+
+	 f_find.open("Employee.dat", ios::in | ios::binary);
+
+	 while(f_find.read((char*)&E, sizeof(E)))
+	 {
+
+	 }
+
+	 getch();
 }
 
 void Program::Reports()
@@ -804,7 +827,7 @@ void Program::Reports()
 	 */
 }
 
-void Program::Change_password()
+int Program::Change_password()
 {
 	 int p, number, upper, special;
 	 char pass, new_password[50], confirm_password[50], strength[20];
@@ -813,22 +836,27 @@ void Program::Change_password()
 	 Border('*');
 	 strcpy(strength, "");
 
-	 gotoxy(23, 10);
+	 gotoxy(35, 3);
+	 cout << "Change Password";
+	 Line(3, 78, 4, '_');
+	 gotoxy(23, 8);
 	 cout << "New Password: ";
-	 Box(41, 9, 20, 2, '-');
-	 gotoxy(23, 13);
+	 Box(41, 7, 20, 2, '-');
+	 gotoxy(23, 11);
 	 cout << "Strength: " << strength;
-	 gotoxy(23, 16);
+	 gotoxy(23, 14);
 	 cout << "Confirm Password: ";
-	 Box(41, 15, 20, 2, '-');
-	 gotoxy(16, 19);
+	 Box(41, 13, 20, 2, '-');
+	 gotoxy(16, 17);
 	 cout << "- Password should be atleast 8 characters long";
-	 gotoxy(16, 20);
+	 gotoxy(16, 18);
 	 cout << "- Password should contain atleast one number";
-	 gotoxy(16, 21);
+	 gotoxy(16, 19);
 	 cout << "- Password should contain atleast one uppercase letter";
-	 gotoxy(16, 22);
+	 gotoxy(16, 20);
 	 cout << "- Password should contain atleast one special character";
+	 gotoxy(53, 23);
+	 cout << " Press Esc to go back";
 
 
 	 //Getting new password
@@ -841,9 +869,9 @@ void Program::Change_password()
 	 while(6 != 9)
 	 {
 		  if(p > 18)
-				gotoxy(60, 10);
+				gotoxy(60, 8);
 		  else
-				gotoxy(42 + p, 10);
+				gotoxy(42 + p, 8);
 		  pass = getch();
 
 		  if(pass == 13)
@@ -857,13 +885,15 @@ void Program::Change_password()
 				{
 					 if(p <= 19)
 					 {
-						  gotoxy(41 + p, 10);
+						  gotoxy(41 + p, 8);
 						  cout << ' ';
 					 }
 					 --p;
 					 new_password[p] = 0;
 				}
 		  }
+		  else if(pass == 27)
+				return 0;
 		  else if(p > 18)
 		  {
 				new_password[p] = pass;
@@ -899,7 +929,7 @@ void Program::Change_password()
 		  else if(number > 0 && upper > 0 && special > 0)
 				strcpy(strength, "Satisfactory");
 		  ClearStrength();
-		  gotoxy(23, 13);
+		  gotoxy(23, 11);
 		  cout << "Strength: " << strength;
 	 }
 
@@ -908,9 +938,9 @@ void Program::Change_password()
 	 while(6 != 9)
 	 {
 		  if(p > 18)
-				gotoxy(60, 16);
+				gotoxy(60, 14);
 		  else
-				gotoxy(42 + p, 16);
+				gotoxy(42 + p, 14);
 		  pass = getch();
 
 		  if(pass == 13)
@@ -924,13 +954,15 @@ void Program::Change_password()
 				{
 					 if(p <= 19)
 					 {
-						  gotoxy(41 + p, 16);
+						  gotoxy(41 + p, 14);
 						  cout << ' ';
 					 }
 					 --p;
 					 confirm_password[p] = 0;
 				}
 		  }
+		  else if(pass == 27)
+				goto _newpass;
 		  else if(p > 18)
 		  {
 				confirm_password[p] = pass;
@@ -950,7 +982,7 @@ void Program::Change_password()
 	 ClearChangePasswordMessage();
 	 if(strcmp(new_password, confirm_password))
 	 {
-		  gotoxy(33, 19);
+		  gotoxy(33, 17);
 		  cout << "Passwords don't match";
 		  goto _newpass;
 	 }
@@ -958,32 +990,32 @@ void Program::Change_password()
 	 {
 		  if(strlen(new_password) < 8)
 		  {
-				gotoxy(29, 19);
+				gotoxy(29, 17);
 				cout << "Password isn't long enough";
 				goto _newpass;
 		  }
 		  else if(number == 0)
 		  {
-				gotoxy(27, 19);
+				gotoxy(27, 17);
 				cout << "Password doesn't include numbers";
 				goto _newpass;
 		  }
 		  else if(upper == 0)
 		  {
-				gotoxy(22, 19);
+				gotoxy(22, 17);
 				cout << "Password doesn't include uppercase letters";
 				goto _newpass;
 		  }
 		  else if(special == 0)
 		  {
-				gotoxy(21, 19);
+				gotoxy(21, 17);
 				cout << "Password doesn't include special characters";
 				goto _newpass;
 		  }
 		  else
 		  {
 				Set_acc_details(Get_username(), new_password);
-				gotoxy(29, 19);
+				gotoxy(29, 17);
 				cout << "Password change sucessful";
 				Delay(2000);
 		  }
@@ -1013,6 +1045,6 @@ int main()
 	 Design D;
 	 Program P;
 
-	P.Login();
+	P.Main_menu();
 	getch();
 }

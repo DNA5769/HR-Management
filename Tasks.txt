@@ -32,11 +32,3 @@ Kassim
 Madesh
 - Work on Program::Reports()
 - Add more variables in struct 'sal_info'
-
-
-
-
-
-7 is 7
-Dennis is  not gay
-Aradhan is Batman yeet
