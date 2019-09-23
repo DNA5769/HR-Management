@@ -5,6 +5,7 @@
 #include <string.h>
 #include <stdlib.h>
 #include <ctype.h>
+#include <math.h>
 
 /*  I M P O R T A N T   M E S S A G E
 *   For Employee::Login()
@@ -48,11 +49,43 @@ public:
 	 void Set_acc_details(char username[], char password[]);
     //Sets username and password
     int Get_empID();
-	 //Returns empno
+	 //Returns empID
     char* Get_name();
-    //Returns name
-	 char* Get_dept();
-    //Returns dept
+	//Returns name
+	int Get_age();
+	//Returns age
+	long Get_telno();
+	//Returns telno
+	char* Get_desig();
+	//Returns desig
+	char* Get_dept();
+	//Returns dept
+	float Get_basic();
+	float Get_HRA();
+	float Get_DA();
+	float Get_tax();
+	float Get_TA();
+	float Get_MA();
+	float Get_PF();
+	void Set_empID(int id);
+	//Sets empID
+	void Set_name(char n[]);
+	//Sets name
+	void Set_age(int a);
+	//Sets age
+	void Set_telno(long tel);
+	//Sets telno
+	void Set_desig(char des[]);
+	//Sets desig
+	void Set_dept(char dep[]);
+	//Sets dept
+	void Set_basic(float bas);
+	void Set_HRA(float hra);
+	void Set_DA(float da);
+	void Set_tax(float tx);
+	void Set_TA(float ta);
+	void Set_MA(float ma);
+	void Set_PF(float pf);
 };
 
 char* Employee::Get_username()
@@ -95,8 +128,77 @@ int Employee::Get_empID()
 char* Employee::Get_name()
 {return name;}
 
+int Employee::Get_age()
+{return age;}
+
+long Employee::Get_telno()
+{return telno;}
+
+char* Employee::Get_desig()
+{return desig;}
+
 char* Employee::Get_dept()
 {return dept;}
+
+float Employee::Get_basic()
+{return sal.basic;}
+
+float Employee::Get_HRA()
+{return sal.HRA;}
+
+float Employee::Get_DA()
+{return sal.DA;}
+
+float Employee::Get_tax()
+{return sal.tax;}
+
+float Employee::Get_TA()
+{return sal.TA;}
+
+float Employee::Get_MA()
+{return sal.MA;}
+
+float Employee::Get_PF()
+{return sal.PF;}
+
+void Employee::Set_empID(int id)
+{empID = id;}
+
+void Employee::Set_name(char n[])
+{strcpy(name, n);}
+
+void Employee::Set_age(int a)
+{age = a;}
+
+void Employee::Set_telno(long tel)
+{telno = tel;}
+
+void Employee::Set_desig(char des[])
+{strcpy(desig, des);}
+
+void Employee::Set_dept(char dep[])
+{strcpy(dept, dep);}
+
+void Employee::Set_basic(float bas)
+{sal.basic = bas;}
+
+void Employee::Set_HRA(float hra)
+{sal.HRA = hra;}
+
+void Employee::Set_DA(float da)
+{sal.DA = da;}
+
+void Employee::Set_tax(float tx)
+{sal.tax = tx;}
+
+void Employee::Set_TA(float ta)
+{sal.TA = ta;}
+
+void Employee::Set_MA(float ma)
+{sal.MA = ma;}
+
+void Employee::Set_PF(float pf)
+{sal.PF = pf;}
 
                                         ///////////////////////////////////////////
 
@@ -128,11 +230,12 @@ public:
 	//Creates a delay which can be adjusted using 'a'
 	 void Delayed_text(int x, int y, char string[]);
 	//Creates a small welcome sign
-	void Star_top_L();
-	void Star_top_R();
-	void Star_bottom_L();
-	void Star_bottom_R();
+	void Star_top_L();        //     These 4 functions
+	void Star_top_R();        //     are used to create the '*'
+	void Star_bottom_L();     //     borders in the in
+	void Star_bottom_R();     //     Program::Main_menu()
 	void Main_menu_sign();
+	//Displays 'MAIN MENU' in Program::Main_menu()
 };
 
 void Design::Border(char ch)
@@ -438,24 +541,24 @@ void Design::Main_menu_sign()
 
     for(int c = 1; c <= 2; c++)
 	{
-        if(c = 1)
-        {
-            gotoxy(7,11);
-            cout << "\\";
-        }
+		if(c == 1)
+		{
+			gotoxy(7,11);
+			cout << "\\";
+		}
 
-        if(c = 2)
-        {
-            gotoxy(8,11);
-            cout << "/";
+		if(c == 2)
+		{
+			gotoxy(8,11);
+			cout << "/";
 		}
 	}
 
 	x = 10;
 
-    for(int d = 1; d <= 2; d++)
-    {
-        gotoxy(13,x);
+	for(int d = 1; d <= 2; d++)
+	{
+		gotoxy(13,x);
         cout << "__";
         x+=2;
     }
@@ -478,7 +581,7 @@ void Design::Main_menu_sign()
         for(int g = 1; g <= 8; g++)
         {
             z+=3;
-            if(z!=63)
+			if(z != 63)
             {
                 gotoxy(z,x);
                 cout << "|";
@@ -489,15 +592,15 @@ void Design::Main_menu_sign()
 
     for(int h = 1; h <= 2; h++)
 	{
-        if(h=1)
-        {
-            gotoxy(55,11);
-            cout << "\\";
-        }
-        if(h=2)
-        {
-            gotoxy(56,11);
-            cout << "/";
+		if(h == 1)
+		{
+			gotoxy(55,11);
+			cout << "\\";
+		}
+		if(h == 2)
+		{
+			gotoxy(56,11);
+			cout << "/";
 		}
 	}
 
@@ -507,7 +610,7 @@ void Design::Main_menu_sign()
     for(int i = 1; i <= 3; i++)
     {
         gotoxy(z,x);
-        if(i==2)
+		if(i == 2)
             cout << "--";
         else if(i==1)
         {
@@ -544,12 +647,15 @@ class Help
 private:
 protected:
 public:
-	 int NumberCount(char sent[]);
+	int NumberCount(char sent[]);
     //Checks number count
-	 int UpperCount(char sent[]);
+	int UpperCount(char sent[]);
 	 //Checks uppercase letter count
     int SpecialCount(char sent[]);
-    //Checks special character count
+	//Checks special character count
+	long StringToInt(char str[]);
+	int IntCheck(char str[]);
+
 };
 
 int Help::NumberCount(char sent[])
@@ -584,6 +690,34 @@ int Help::UpperCount(char sent[])
             ++count;
 
 	 return count;
+}
+
+long Help::StringToInt(char str[])
+{
+	long N = 0, n, p;
+
+	p = strlen(str);
+	--p;
+
+	for(int i = 0; str[i] != 0; ++i)
+	{
+		n = str[i] - '0';
+		n = n * pow(10, p);
+
+		N += n;
+		--p;
+	}
+
+	return N;
+}
+
+int Help::IntCheck(char str[])
+{
+	for(int i = 0; str[i] != 0; ++i)
+		if(!isdigit(str[i]))
+			return 0;
+
+	return 1;
 }
 
 										///////////////////////////////////////////
@@ -720,7 +854,8 @@ void Program::Login()
 
 void Program::Main_menu()
 {
-	int selection, option = 49;
+	char selection[20];
+	int option = 49;
 
 	do
 	{
@@ -731,99 +866,96 @@ void Program::Main_menu()
 		Star_top_L();
 		Star_bottom_L();
 		Star_bottom_R();
-        Main_menu_sign();
-		gotoxy(20, 22);
-		cout << "Scroll through options 1-7 and press enter";
+		Main_menu_sign();
 
-		_invalid:          //So that screen doesn't get cleared if we use invalid selections
 		Border('*');
-		Box(28, 6, 24, 14, '!');
+		Box(27, 6, 24, 14, '!');
 
 		switch(option)
 		{
 		case 49:
-			Line(29, 51, 8, '*');
+			Line(28, 50, 8, '*');
 			gotoxy(29, 7);
 			cout << "->";
 			break;
 		case 50:
-			Line(29, 51, 8, '*');
-			Line(29, 51, 10, '*');
+			Line(28, 50, 8, '*');
+			Line(28, 50, 10, '*');
 			gotoxy(29, 9);
 			cout << "->";
 			break;
 		case 51:
-			Line(29, 51, 10, '*');
-			Line(29, 51, 12, '*');
+			Line(28, 50, 10, '*');
+			Line(28, 50, 12, '*');
 			gotoxy(29, 11);
 			cout << "->";
 			break;
 		case 52:
-			Line(29, 51, 12, '*');
-			Line(29, 51, 14, '*');
+			Line(28, 50, 12, '*');
+			Line(28, 50, 14, '*');
 			gotoxy(29, 13);
 			cout << "->";
 			break;
 		case 53:
-			Line(29, 51, 14, '*');
-			Line(29, 51, 16, '*');
+			Line(28, 50, 14, '*');
+			Line(28, 50, 16, '*');
 			gotoxy(29, 15);
 			cout << "->";
 			break;
 		case 54:
-			Line(29, 51, 16, '*');
-			Line(29, 51, 18, '*');
+			Line(28, 50, 16, '*');
+			Line(28, 50, 18, '*');
 			gotoxy(29, 17);
 			cout << "->";
 			break;
 		case 55:
-			Line(29, 51, 18, '*');
+			Line(28, 50, 18, '*');
 			gotoxy(29, 19);
 			cout << "->";
 			break;
 		}
 
-		gotoxy(32, 7);
+		gotoxy(31, 7);
 		cout << "1. Add Employee";
-		gotoxy(32, 9);
+		gotoxy(31, 9);
 		cout << "2. Search Employee";
-		gotoxy(32, 11);
+		gotoxy(31, 11);
 		cout << "3. Salary Slip";
-		gotoxy(32, 13);
+		gotoxy(31, 13);
 		cout << "4. Modify Details";
-		gotoxy(32, 15);
+		gotoxy(31, 15);
 		cout << "5. Reports";
-		gotoxy(32, 17);
+		gotoxy(31, 17);
 		cout << "6. Change Password";
-		gotoxy(32, 19);
+		gotoxy(31, 19);
 		cout << "7. Exit";
 
-		gotoxy(100, 100);    //So that the cursor isnt visible on the screen
-		selection = getch();
+		gotoxy(25, 22);
+		cout << "Select your desired option (1-7)";
+		gotoxy(20, 23);
+		cout << "Press 'Enter' to finalize your selection: ";
+		gets(selection);
 
-		if(selection == 13)
+		if(selection[0] >= 49 && selection[0] <= 55 && strlen(selection) == 1)
+			option = selection[0];
+		else if(strlen(selection) == 0)
 		{
 			switch(option)
 			{
 			case 49:
 				Add_emp();
-				goto _menu;
 				break;
 			case 50:
 				Search_menu();
-				goto _menu;
 				break;
 			case 51:
 				Salary_menu();
-				goto _menu;
 				break;
 			case 52:
 				Modify_menu();
-				goto _menu;
 				break;
 			case 53:
 				Reports();
-				goto _menu;
 				break;
 			case 54:
 				Change_password();
@@ -834,24 +966,208 @@ void Program::Main_menu()
 				break;
 			}
 		}
-		else if(selection >= 49 && selection <= 55)
-			option = selection;
 		else
-			goto _invalid;
+		{
+			Line(25, 67, 22, ' ');
+			Line(20, 66, 23, ' ');
+			gotoxy(30, 22);
+			cout << "Invalid Selection";
+			Delay(2000);
+		}
 
-	 }while(option != 7);
+	 }while(6 != 9);
 }
 
 void Program::Add_emp()
 {
+	fstream f;
+	Employee E;
+	int N;
+	char resp[20];
+
+	int empid, age;
+	char name[20], desig[20], dept[20], empid_c[20], age_c[20], telno_c[20];
+	long telno;
+
+	_add_emp:
 	clrscr();
-	/*
-	 *  Hey Noman,
-	 *  Write the code for adding an employee here
-	 *  Create an input function in class Employee
-	 *  And use that to add employees
-	 *  - Sasuke Uchiha
-	 */
+	Border('*');
+
+	Line(3, 78, 4, '_');
+	gotoxy(35, 3);
+	cout << "Add New Employee";
+
+	Line(3, 78, 11, '*');
+	Line(3, 78, 16, '*');
+	gotoxy(23, 13);
+	cout << "Enter number of employees to be added:\n";
+	gotoxy(39, 14);
+	gets(resp);
+
+	if(!isdigit(resp[0]))
+		goto _add_emp;
+
+	N = resp[0] - '0';
+
+	f.open("Employee.dat", ios::app | ios::binary);
+	for(int i = 1; i <= N; ++i)
+	{
+		reset_add:
+		clrscr();
+		Border('*');
+		Line(3, 78, 4, '_');
+		gotoxy(35, 3);
+		cout << "Add New Employee";
+
+		gotoxy(5, 6);
+		cout << "Employee ID";
+		gotoxy(5, 8);
+		cout << "Name";
+		gotoxy(5, 10);
+		cout << "Age";
+		gotoxy(5, 12);
+		cout << "Telephone Number";
+		gotoxy(5, 14);
+		cout << "Designation";
+		gotoxy(5, 16);
+		cout << "Department";
+		gotoxy(39, 6);
+		cout << ":";
+		gotoxy(39, 8);
+		cout << ":";
+		gotoxy(39, 10);
+		cout << ":";
+		gotoxy(39, 12);
+		cout << ":";
+		gotoxy(39, 14);
+		cout << ":";
+		gotoxy(39, 16);
+		cout << ":";
+		Line(3, 78, 17, '_');
+
+		//Getting Employee Details as Input
+		empid_check:
+		Line(45, 60, 6, ' ');
+		gotoxy(45, 6);
+		gets(empid_c);
+
+		if(!IntCheck(empid_c) || strlen(empid_c) == 0)
+		{
+			gotoxy(35, 22);
+			cout << "Invalid Input!";
+			Delay(2000);
+			Line(35, 50, 22, ' ');
+			goto empid_check;
+		}
+		else
+			empid = StringToInt(empid_c);
+
+		name_check:
+		gotoxy(45, 8);
+		gets(name);
+
+		if(strlen(name) == 0)
+		{
+        	gotoxy(35, 22);
+			cout << "Invalid Input!";
+			Delay(2000);
+			Line(35, 50, 22, ' ');
+			goto name_check;
+		}
+
+		age_check:
+		Line(45, 60, 10, ' ');
+		gotoxy(45, 10);
+		gets(age_c);
+
+		if(!IntCheck(age_c) || strlen(age_c) == 0)
+		{
+        	gotoxy(35, 22);
+			cout << "Invalid Input!";
+			Delay(2000);
+			Line(35, 50, 22, ' ');
+			goto age_check;
+		}
+		else
+			empid = StringToInt(age_c);
+
+		telno_check:
+		Line(45, 60, 12, ' ');
+		gotoxy(45, 12);
+		gets(telno_c);
+
+		if(!IntCheck(telno_c) || strlen(telno_c) == 0)
+		{
+        	gotoxy(35, 22);
+			cout << "Invalid Input!";
+			Delay(2000);
+			Line(35, 50, 22, ' ');
+			goto telno_check;
+		}
+		else
+			empid = StringToInt(telno_c);
+
+		desig_check:
+		gotoxy(45, 14);
+		gets(desig);
+
+		if(strlen(desig) == 0)
+		{
+        	gotoxy(35, 22);
+			cout << "Invalid Input!";
+			Delay(2000);
+			Line(35, 50, 22, ' ');
+			goto desig_check;
+		}
+
+		dept_check:
+		gotoxy(45, 16);
+		gets(dept);
+
+		if(strlen(dept) == 0)
+		{
+			gotoxy(35, 22);
+			cout << "Invalid Input!";
+			Delay(2000);
+			Line(35, 50, 22, ' ');
+			goto dept_check;
+		}
+
+		resp_check:
+		Line(13, 78, 20, ' ');
+		Line(13, 78, 21, ' ');
+		gotoxy(13, 20);
+		cout << "Are you sure you want this employee to be recorded? (Yes/No)";
+		gotoxy(38, 21);
+		gets(resp);
+
+		if(!strcmpi(resp, "Yes") || !strcmpi(resp, "Y"))
+		{
+			E.Set_empID(empid);
+			E.Set_name(name);
+			E.Set_age(age);
+			E.Set_telno(telno);
+			E.Set_desig(desig);
+			E.Set_dept(dept);
+
+			f.write((char*)&E, sizeof(E));
+
+			Line(13, 78, 20, ' ');
+			Line(13, 78, 21, ' ');
+			gotoxy(31, 20);
+			cout << "Writing into database";
+			Delayed_text(52, 20, ".....");
+			gotoxy(29, 21);
+			cout << "Employee Recorded Sucessfully";
+		}
+		else if(!strcmpi(resp, "No") || !strcmpi(resp, "N"))
+				goto reset_add;
+		else
+			goto resp_check;
+
+		getch();
+	}
+	f.close();
 }
 
 void Program::Search_menu()
@@ -913,7 +1229,7 @@ void Program::Modify_menu()
 	 Border('*');
 
 	 Line(3, 78, 4, '_');
-     gotoxy(35, 3);
+	 gotoxy(35, 3);
 	 cout << "Modify Details";
 
 	 Line(3, 78, 11, '*');
@@ -1141,17 +1457,22 @@ int Program::Change_password()
 
 int Program::Exit()
 {
-	 char response[3];
+	char response[3];
 
+	Line(20, 62, 23, ' ');
 	gotoxy(22, 22);
-	 cout << "Are you sure you want to exit? (Yes/No)";
+	cout << "Are you sure you want to exit? (Yes/No)";
+	exit_resp:
+	Line(20, 62, 23, ' ');
 	gotoxy(37, 23);
-	 gets(response);
+	gets(response);
 
-	 if(!strcmpi(response, "Yes") || !strcmpi(response, "Y"))
-		  exit(0);
-	 else if(!strcmpi(response, "No") || !strcmpi(response, "N"))
-		  return 0;
+	if(!strcmpi(response, "Yes") || !strcmpi(response, "Y"))
+		exit(0);
+	else if(!strcmpi(response, "No") || !strcmpi(response, "N"))
+		return 0;
+	else
+		goto exit_resp;
 }
 
 													 ///////////////////////////////////////////
@@ -1159,8 +1480,9 @@ int Program::Exit()
 int main()
 {
 	Employee E;
-	 Design D;
-	 Program P;
+	Design D;
+	Help H;
+	Program P;
 
 	P.Login();
 	getch();
