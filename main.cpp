@@ -132,6 +132,7 @@ public:
 	void Star_top_R();
 	void Star_bottom_L();
 	void Star_bottom_R();
+	void Main_menu_sign();
 };
 
 void Design::Border(char ch)
@@ -282,10 +283,10 @@ void Design::Animation_Spiral(int limit, float delay, char ch)
 {
 	int i;
     int l = 78, d = 24, r = 77, u = 23;
-	 int x = 1, y = 1;
+    int x = 1, y = 1;
 
     for(int j = 1; j <= limit; ++j)
-	 {
+    {
         if(x != 1 && y != 1)
         {
 				gotoxy(x, y);
@@ -348,79 +349,194 @@ void Design::Delayed_text(int x, int y, char string[])
 }
 void Design::Star_top_L()
 {
- int z,x;
- z=3;
- x=1;
- for(int a=13;a>=1;a--)
-  {
-	gotoxy(z,x);
-	for(int b=1;b<=a;b++)
-	 {
-	  cout<<"*";
-	 }
-	cout<<'\n';
+    int z,x;
+    z=3;
+    x=1;
+
+    for(int a = 13; a >= 1; a--)
+    {
+        gotoxy(z,x);
+        for(int b = 1; b <= a; b++)
+            cout << "*";
+
+        cout << '\n';
 	x++;
-  }
+    }
 }
 void Design::Star_top_R()
 {
- int z,x;
- z=66;
- x=1;
+    int z,x;
+    z=66;
+    x=1;
 
- for(int a=1;a<=13;a++)
-  {
-	gotoxy(z,x);
-	for(int b=1;b<a;b++)
-	 {
-	  cout<<" ";
-	 }
-	for(int c=13;c>=a;c--)
-	 {
-	  cout<<"*";
-	  }
-	cout<<'\n';
-	 x++;
-  }
+    for(int a = 1; a <= 13; a++)
+    {
+        gotoxy(z,x);
+        for(int b = 1; b < a; b++)
+            cout<<" ";
+        for(int c = 13; c >= a; c--)
+            cout<<"*";
+
+        cout << '\n';
+        x++;
+    }
 
 }
 void Design::Star_bottom_L()
 {
-int z,x;
-z=3;
-x=13;
-for(int a=1;a<=13;a++)
- {
-  gotoxy(z,x);
-  for(int b=1;b<=a;b++)
-	{
-	 cout<<"*";
-	}
- cout<<'\n';
- x++;
- }
+    int z,x;
+    z=3;
+    x=13;
+
+    for(int a=1;a<=13;a++)
+    {
+        gotoxy(z,x);
+        for(int b=1;b<=a;b++)
+            cout << "*";
+
+        cout << '\n';
+        x++;
+    }
 
 }
 void Design::Star_bottom_R()
 {
-  int z,x;
-  z=66;
-  x=13;
-  for(int a=3;a<=14;a++)
+    int z,x;
+    z=66;
+    x=13;
+    for(int a = 3; a <= 14; a++)
 	{
-	 gotoxy(z,x);
-	 for(int b=14;b>a;b--)
-	  {
-		cout<<" ";
-	  }
-	 for(int c=2;c<=a;c++)
-	 {
-	 cout<<"*";
-	 }
-	cout<<'\n';
-	x++;
-  }
+        gotoxy(z,x);
+        for(int b = 14; b > a; b--)
+            cout << " ";
+        for(int c = 2; c <= a; c++)
+            cout << "*";
+
+        cout << '\n';
+        x++;
+    }
 }
+
+void Design::Main_menu_sign()
+{
+    int z,x;
+    x = 11;
+
+    for(int a = 1; a <= 3; a++)
+    {
+        z=3;
+        gotoxy(z,x);
+        for(int b = 1; b <= 7; b++)
+        {
+            z += 3;
+
+            gotoxy(z,x);
+            cout << "|";
+        }
+        x++;
+    }
+
+    for(int c = 1; c <= 2; c++)
+	{
+        if(c = 1)
+        {
+            gotoxy(7,11);
+            cout << "\\";
+        }
+
+        if(c = 2)
+        {
+            gotoxy(8,11);
+            cout << "/";
+		}
+	}
+
+	x = 10;
+
+    for(int d = 1; d <= 2; d++)
+    {
+        gotoxy(13,x);
+        cout << "__";
+        x+=2;
+    }
+
+    x = 10;
+    z = 22;
+    x = 11;
+
+    for(int e = 1; e <= 2; e++, z++, x++)
+    {
+        gotoxy(z,x);
+        cout << "\\";
+	}
+
+    x=11;
+    for(int f = 1; f <= 3; f++)
+    {
+        z=51;
+        gotoxy(z,x);
+        for(int g = 1; g <= 8; g++)
+        {
+            z+=3;
+            if(z!=63)
+            {
+                gotoxy(z,x);
+                cout << "|";
+            }
+        }
+        x++;
+    }
+
+    for(int h = 1; h <= 2; h++)
+	{
+        if(h=1)
+        {
+            gotoxy(55,11);
+            cout << "\\";
+        }
+        if(h=2)
+        {
+            gotoxy(56,11);
+            cout << "/";
+		}
+	}
+
+    z = 61;
+    x = 10;
+
+    for(int i = 1; i <= 3; i++)
+    {
+        gotoxy(z,x);
+        if(i==2)
+            cout << "--";
+        else if(i==1)
+        {
+            cout << "___";
+            x++;
+        }
+        else
+            cout << "___";
+
+        x++;
+    }
+
+    z = 67;
+    x = 11;
+
+    for(int j = 1; j <= 2; j++, z++, x++)
+    {
+        gotoxy(z,x);
+        cout << "\\";
+	}
+
+    z = 73;
+    x = 13;
+
+    gotoxy(z,x);
+    cout << "__";
+
+}
+
 										///////////////////////////////////////////
 
 class Help
@@ -615,6 +731,7 @@ void Program::Main_menu()
 		Star_top_L();
 		Star_bottom_L();
 		Star_bottom_R();
+        Main_menu_sign();
 		gotoxy(20, 22);
 		cout << "Scroll through options 1-7 and press enter";
 
@@ -1045,6 +1162,6 @@ int main()
 	 Design D;
 	 Program P;
 
-	P.Main_menu();
+	P.Login();
 	getch();
 }
