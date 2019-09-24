@@ -17,20 +17,14 @@
 class Employee
 {
 private:
-HEAD
-    int empno;
-	 char name[20];
-	 int age;
-=======
 	int empID;
     char name[20];
 	int age;
- master
     long telno;
-	 char desig[10];
+    char desig[10];
 	char dept[10];
 
-	 struct sal_info
+    struct sal_info
 	{
 		float basic;
 		float HRA;
@@ -50,20 +44,6 @@ HEAD
 	}acc;
 protected:
 public:
- HEAD
-	 char* Get_username();
-	 //Returns username
-    char* Get_password();
-	 //Returns password
-	 void Set_acc_details(char username[], char password[]);
-    //Sets username and password
-	 int Get_empno();
-	 //Returns empno
-    char* Get_name();
-	 //Returns name
-	 char* Get_dept();
-    //Returns dept
-=======
     char* Get_username();
 	//Returns username
     char* Get_password();
@@ -112,7 +92,6 @@ public:
 	void Set_PF(float pf);
 	void Set_grade_pay(float grade);
 	void Set_net_sal(float net);
- master
 };
 
 char* Employee::Get_username()
@@ -123,13 +102,13 @@ char* Employee::Get_username()
 	f.read((char*)&acc, sizeof(acc));
 	f.close();
 
-	 return acc.username;
+    return acc.username;
 }
 
 char* Employee::Get_password()
 {
     fstream f;
-	 f.open("Account.dat", ios::in | ios::binary);
+    f.open("Account.dat", ios::in | ios::binary);
 
 	f.read((char*)&acc, sizeof(acc));
 	f.close();
@@ -139,15 +118,6 @@ char* Employee::Get_password()
 
 void Employee::Set_acc_details(char username[], char password[])
 {
-HEAD
-	 fstream f;
-	 f.open("Account.dat", ios::out | ios::binary);
-
-	 strcpy(acc.username, username);
-	 strcpy(acc.password, password);
-
-	 f.write((char*)&acc, sizeof(acc));
-=======
     fstream f;
 	f.open("Account.dat", ios::out | ios::binary);
 
@@ -156,7 +126,6 @@ HEAD
 
 	f.write((char*)&acc, sizeof(acc));
 	f.close();
- master
 }
 
 int Employee::Get_empID()
@@ -177,9 +146,6 @@ char* Employee::Get_desig()
 char* Employee::Get_dept()
 {return dept;}
 
-HEAD
-													 ///////////////////////////////////////////
-=======
 float Employee::Get_basic()
 {return sal.basic;}
 
@@ -253,7 +219,6 @@ void Employee::Set_net_sal(float net)
 {sal.net_sal = net;}
 
                                         ///////////////////////////////////////////
- master
 
 class Design
 {
@@ -262,25 +227,17 @@ protected:
 public:
 	void Border(char ch);
     //Creates a border using specified character 'ch'
-	 void Box(int x, int y, int l, int b, char ch);
+    void Box(int x, int y, int l, int b, char ch);
 	//Creates a box on (x ,y) coordinate of specified character 'ch' and dimensions lxb
 	void Line(int x1, int x2, int y, char ch);
 	//Creates a line from (x1, y) to (x2, y) of specified character 'ch'
 	void ClearLoginBox();
     //Clears login details entry boxes
-     HEAD
-	 void ClearLoginMessage();
-	 //Clears login messages
-    void ClearChangePasswordBox();
-	 //Clears login details entry boxes
-	 void ClearChangePasswordMessage();
-=======
     void ClearLoginMessage();
 	//Clears login messages
     void ClearChangePasswordBox();
     //Clears login details entry boxes
 	void ClearChangePasswordMessage();
- master
     //Clears login messages
 	 void ClearStrength();
 	//Clears password strength
@@ -291,20 +248,12 @@ public:
 	//Creates a delay which can be adjusted using 'a'
 	void Delayed_text(int x, int y, char string[]);
 	//Creates a small welcome sign
- HEAD
-	void Star_top_L();
-	void Star_top_R();
-	void Star_bottom_L();
-	void Star_bottom_R();
-	void Main_menu_sign();
-=======
 	void Star_top_L();        //     These 4 functions
 	void Star_top_R();        //     are used to create the '*'
 	void Star_bottom_L();     //     borders in the in
 	void Star_bottom_R();     //     Program::Main_menu()
 	void Main_menu_sign();
 	//Displays 'MAIN MENU' in Program::Main_menu()
- master
 };
 
 void Design::Border(char ch)
@@ -375,38 +324,25 @@ void Design::Line(int x1, int x2, int y, char ch)
 
 void Design::ClearLoginBox()
 {
-	 for(int i = 0; i < 19; ++i)
+    for(int i = 0; i < 19; ++i)
     {
 		  gotoxy(36 + i, 13);
 		  cout << ' ';
     }
- HEAD
-	 for(int j = 0; j < 19; ++j)
-	 {
-=======
 	for(int j = 0; j < 19; ++j)
     {
- master
         gotoxy(36 + j, 16);
 		  cout << ' ';
-	 }
+    }
 }
 
 void Design::ClearLoginMessage()
 {
- HEAD
-	 for(int i = 0; i < 23; ++i)
-	 {
-        gotoxy(30 + i, 19);
-		  cout << ' ';
-	 }
-=======
 	for(int i = 0; i < 23; ++i)
     {
         gotoxy(30 + i, 19);
         cout << ' ';
     }
-master
     for(int j = 0; j < 23; ++j)
 	 {
 		  gotoxy(30 + j, 20);
@@ -417,68 +353,41 @@ master
 void Design::ClearChangePasswordBox()
 {
     for(int i = 0; i < 19; ++i)
-	 {
- HEAD
-		  gotoxy(42 + i, 10);
-=======
-		gotoxy(42 + i, 8);
- master
-        cout << ' ';
-	 }
-	 for(int j = 0; j < 19; ++j)
     {
-HEAD
-		  gotoxy(42 + j, 16);
-		  cout << ' ';
-=======
-		  gotoxy(42 + j, 14);
+        gotoxy(42 + i, 8);
         cout << ' ';
- master
+	}
+    for(int j = 0; j < 19; ++j)
+    {
+        gotoxy(42 + j, 14);
+        cout << ' ';
     }
 }
 
 void Design::ClearChangePasswordMessage()
 {
-	 int i;
+    int i;
 
-	 //Clears long message
-	 for(i = 0; i < 54; ++i)
+    //Clears long message
+    for(i = 0; i < 54; ++i)
     {
- HEAD
-		  gotoxy(16 + i, 19);
-		  cout << ' ';
-    }
-	 for(i = 0; i < 54; ++i)
-	 {
-        gotoxy(16 + i, 20);
-=======
-		  gotoxy(16 + i, 17);
+        gotoxy(16 + i, 17);
         cout << ' ';
     }
-	 for(i = 0; i < 54; ++i)
+    for(i = 0; i < 54; ++i)
     {
 		gotoxy(16 + i, 18);
- master
-		  cout << ' ';
-	 }
+        cout << ' ';
+    }
     for(i = 0; i < 54; ++i)
-	 {
- HEAD
-		  gotoxy(16 + i, 21);
-=======
-		gotoxy(16 + i, 19);
-master
-        cout << ' ';
-	 }
-	 for(i = 0; i < 55; ++i)
     {
- HEAD
-		  gotoxy(16 + i, 22);
-		  cout << ' ';
-=======
-		  gotoxy(16 + i, 20);
+        gotoxy(16 + i, 19);
         cout << ' ';
- master
+    }
+	for(i = 0; i < 55; ++i)
+    {
+        gotoxy(16 + i, 20);
+        cout << ' ';
     }
 }
 
@@ -486,13 +395,8 @@ void Design::ClearStrength()
 {
 	 for(int i = 0; i < 50; ++i)
     {
- HEAD
-		  gotoxy(23 + i, 13);
-		  cout << ' ';
-=======
-		  gotoxy(23 + i, 11);
+        gotoxy(23 + i, 11);
         cout << ' ';
- master
     }
 }
 
@@ -503,52 +407,47 @@ void Design::Animation_Spiral(int limit, float delay, char ch)
     int x = 1, y = 1;
 
     for(int j = 1; j <= limit; ++j)
- HEAD
-	 {
-		  if(x != 1 && y != 1)
-=======
     {
         if(x != 1 && y != 1)
- master
         {
-				gotoxy(x, y);
-				cout << ch;
+            gotoxy(x, y);
+            cout << ch;
             Delay(delay);
-		  }
+        }
 
         for(i = 1; i <= l; ++i)
-		  {
-				gotoxy(x + i, y);
-            cout << ch;
-				Delay(delay);
-		  }
-        x += l;
-		  for(i = 1; i <= d; ++i)
-		  {
-            gotoxy(x, y + i);
-				cout << ch;
-				Delay(delay * 1.5);
-        }
-		  y += d;
-		  for(i = 1; i <= r; ++i)
         {
-				gotoxy(x - i, y);
-				cout << ch;
-            Delay(delay);
-		  }
-		  x -= r;
-        for(i = 1; i <= u; ++i)
-		  {
-				gotoxy(x, y - i);
+            gotoxy(x + i, y);
             cout << ch;
-				Delay(delay * 1.5);
-		  }
+            Delay(delay);
+		}
+        x += l;
+        for(i = 1; i <= d; ++i)
+        {
+            gotoxy(x, y + i);
+            cout << ch;
+			Delay(delay * 1.5);
+        }
+        y += d;
+        for(i = 1; i <= r; ++i)
+        {
+            gotoxy(x - i, y);
+            cout << ch;
+            Delay(delay);
+        }
+        x -= r;
+        for(i = 1; i <= u; ++i)
+        {
+            gotoxy(x, y - i);
+            cout << ch;
+            Delay(delay * 1.5);
+        }
         y -= u;
 
-		  l -= 2;
+        l -= 2;
         d -= 2;
-		  u -= 2;
-		  r -= 2;
+        u -= 2;
+        r -= 2;
     }
 }
 
@@ -614,7 +513,7 @@ void Design::Star_bottom_L()
     {
         gotoxy(z,x);
         for(int b=1;b<=a;b++)
-            cout << "*";
+        cout << "*";
 
         cout << '\n';
         x++;
@@ -638,131 +537,6 @@ void Design::Star_bottom_R()
         x++;
     }
 }
- HEAD
-void Design::Main_menu_sign()
-{
- int z,x;
- x=11;
- for(int a=1;a<=3;a++)
-  {
-	z=3;
-	gotoxy(z,x);
-	 for(int b=1;b<=7;b++)
-	  {
-	  z+=3;
-
-	  gotoxy(z,x);
-	  cout<<"|";
-	  }
-	x++;
- }
-  for(int c=1;c<=2;c++)
-	{
-	 if(c=1)
-	 {
-		gotoxy(7,11);
-		cout<<"\\";
-	  }
-	 if(c=2)
-	 {
-		gotoxy(8,11);
-		cout<<"/";
-		}
-	}
-	x=10;
-  for(int d=1;d<=2;d++)
-  {
-	gotoxy(13,x);
-	cout<<"__";
-	x+=2;
-  }
-  x=10;
-
-
-  z=22;
-  x=11;
-
-
-  for(int e=1;e<=2;e++,z++,x++)
-  {
-	gotoxy(z,x);
-	cout<<"\\";
-
-	}
-
-
-x=11;
-for(int f=1;f<=3;f++)
-  {
-	z=51;
-	gotoxy(z,x);
-	 for(int g=1;g<=8;g++)
-	  {
-	  z+=3;
-		if(z!=63)
-		{
-		gotoxy(z,x);
-		cout<<"|";
-		}
-	  }
-	x++;
-  }
-
-for(int h=1;h<=2;h++)
-	{
-	 if(h=1)
-	 {
-		gotoxy(55,11);
-		cout<<"\\";
-	  }
-	 if(h=2)
-	 {
-		gotoxy(56,11);
-		cout<<"/";
-		}
-	}
-
-z=61;
-x=10;
-for(int i=1;i<=3;i++)
- {
- gotoxy(z,x);
- if(i==2)
-  {
-
-  cout<<"--";
-
-  }
- else if(i==1)
-  {
-
-  cout<<"___";
-  x++;
-  }
- else
-  {
-  cout<<"___";
-  }
- x++;
- }
-z=67;
-x=11;
-for(int j=1;j<=2;j++,z++,x++)
-  {
-	gotoxy(z,x);
-	cout<<"\\";
-
-	}
- z=73;
- x=13;
-  gotoxy(z,x);
-  cout<<"__";
-
-}
-
-
-									///////////////////////////////////////////
-=======
 
 void Design::Main_menu_sign()
 {
@@ -885,7 +659,6 @@ void Design::Main_menu_sign()
 }
 
 										///////////////////////////////////////////
- master
 
 class Help
 {
@@ -895,17 +668,11 @@ public:
 	int NumberCount(char sent[]);
     //Checks number count
 	int UpperCount(char sent[]);
-	 //Checks uppercase letter count
-HEAD
-	 int SpecialCount(char sent[]);
-	 //Checks special character count
-=======
+    //Checks uppercase letter count
     int SpecialCount(char sent[]);
 	//Checks special character count
 	long StringToInt(char str[]);
 	int IntCheck(char str[]);
-
- master
 };
 
 int Help::NumberCount(char sent[])
@@ -914,13 +681,8 @@ int Help::NumberCount(char sent[])
 
     for(int i = 0; sent[i] != 0; ++i)
         if((sent[i] == '0' || sent[i] == '1' || sent[i] == '2' || sent[i] == '3' || sent[i] == '4' ||
-HEAD
-			  sent[i] == '5' || sent[i] == '6' || sent[i] == '7' || sent[i] == '8' || sent[i] == '9') && isdigit(sent[i]))
-				++count;
-=======
            sent[i] == '5' || sent[i] == '6' || sent[i] == '7' || sent[i] == '8' || sent[i] == '9') && isdigit(sent[i]))
             ++count;
-    master
 
 	 return count;
 }
@@ -940,13 +702,8 @@ int Help::UpperCount(char sent[])
 {
 	int count = 0;
 
- HEAD
-	 for(int i = 0; sent[i] != 0; ++i)
-		  if(isupper(sent[i]) && isalpha(sent[i]))
-=======
     for(int i = 0; sent[i] != 0; ++i)
         if(isupper(sent[i]) && isalpha(sent[i]))
- master
             ++count;
 
     return count;
@@ -988,30 +745,17 @@ private:
 protected:
 public:
     void Login();
-HEAD
-	 void Main_menu();
-	 void Add_emp();
-    void Search_menu();
-	 void Search_empno();
-	 void Search_name();
-=======
     void Main_menu();
 	void Add_emp();
     void Search_menu();
     void Search_empno();
 	void Search_name();
- master
     void Search_dept();
 	void Salary_slip();
 	void Modify_menu();
 	void Reports();
-HEAD
-    void Change_password();
-	 int Exit();
-=======
 	int Change_password();
     int Exit();
- master
 };
 
 void Program::Login()
@@ -1021,111 +765,75 @@ void Program::Login()
 
 	Delayed_text(38, 8, "WELCOME");
 
-	 /*
-     *  Hey Aradhan,
-	  *  Make sure you do your triangles and welcome thingy over here
-	  *  before all the border stuff
-     *  Work on Main_menu() if you can
-	  *  - Sasuke Uchiha
-	  */
+    /*
+    *  Hey Aradhan,
+	*  Make sure you do your triangles and welcome thingy over here
+	*  before all the border stuff
+    *  Work on Main_menu() if you can
+	*  - Sasuke Uchiha
+	*/
 
 	//Display
 	Animation_Spiral(1, 100, '*');
 	gotoxy(25, 13);
-	 cout << "Username: ";
-	 Box(35, 12, 20, 2, '-');
+	cout << "Username: ";
+	Box(35, 12, 20, 2, '-');
     gotoxy(25, 16);
-	 cout << "Password: ";
-	 Box(35, 15, 20, 2, '-');
+    cout << "Password: ";
+	Box(35, 15, 20, 2, '-');
 
-	 //Receives username as input
-	 _pass:
+	//Receives username as input
+	_pass:
     ClearLoginBox();
-	 gotoxy(36, 13);
-	 gets(username);
+	gotoxy(36, 13);
+	gets(username);
 
-	 //Receives password as input
-	 p = 0;
+	//Receives password as input
+	p = 0;
     while(6 != 9)
-	 {
-		  if(p > 18)
- HEAD
+	{
+        if(p > 18)
             gotoxy(54, 16);
-		  else
-=======
-	    gotoxy(54, 16);
-	else
- master
-				gotoxy(36 + p, 16);
-		  pass = getch();
+        else
+            gotoxy(36 + p, 16);
+        pass = getch();
 
-		  if(pass == 13)
- HEAD
+        if(pass == 13)
         {
-				password[p] = '\0';
-				break;
+            password[p] = '\0';
+            break;
         }
-		  else if(pass == 8)
-		  {
+        else if(pass == 8)
+        {
             if(p != 0)
-				{
-=======
-	{
-	    password[p] = '\0';
-				break;
-	}
-	else if(pass == 8)
-		  {
-	    if(p != 0)
-	    {
- master
-					 if(p <= 19)
-		{
+            {
+                if(p <= 19)
+                {
 					gotoxy(35 + p, 16);
-						  cout << ' ';
- HEAD
+                    cout << ' ';
                 }
-					 --p;
-					 password[p] = 0;
+                --p;
+                password[p] = 0;
             }
-		  }
-		  else if(p > 18)
+        }
+        else if(p > 18)
         {
-				password[p] = pass;
-				++p;
-            password[p] = 0;
-		  }
-		  else
-        {
-				password[p] = pass;
-				cout << '*';
+            password[p] = pass;
             ++p;
-				password[p] = 0;
-=======
-		}
-		--p;
-					 password[p] = 0;
-	    }
-	}
-		  else if(p > 18)
-	{
-	    password[p] = pass;
-				++p;
-	    password[p] = 0;
-	}
-		  else
-	{
-	    password[p] = pass;
-				cout << '*';
-	    ++p;
-	    password[p] = 0;
- master
-		  }
+            password[p] = 0;
+        }
+        else
+        {
+            password[p] = pass;
+            cout << '*';
+            ++p;
+            password[p] = 0;
+        }
     }
 
-	 //Checking login details
+    //Checking login details
     ClearLoginMessage();
-	 if(!strcmp(username, Get_username()) && !strcmp(password, Get_password()))
+    if(!strcmp(username, Get_username()) && !strcmp(password, Get_password()))
 	{
 		gotoxy(35, 19);
 		Main_menu();
@@ -1134,12 +842,12 @@ void Program::Login()
 	{
 		tries++;
 
-		  if(strcmp(username, Get_username()))
-		  {
+        if(strcmp(username, Get_username()))
+		{
 			gotoxy(33, 19);
 			cout << "Username not found";
 		}
-		  else if(strcmp(password, Get_password()))
+        else if(strcmp(password, Get_password()))
 		{
 			gotoxy(32, 19);
 			cout << "Password is incorrect";
@@ -1174,17 +882,7 @@ void Program::Main_menu()
 		Star_bottom_L();
 		Star_bottom_R();
 		Main_menu_sign();
- HEAD
-		if(init_msg_check == 0)
-		{
-			gotoxy(20, 22);
-			cout << "Scroll through options 1-7 and press enter";
-			init_msg_check = 1;
-		}
-		_invalid:          //So that screen doesn't get cleared if we use invalid selections
-=======
 
- master
 		Border('*');
 		Box(27, 6, 24, 14, '!');
 
