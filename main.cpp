@@ -33,6 +33,8 @@ private:
 		float TA;
 		float MA;
 		float PF;
+		float grade_pay;
+		float net_sal;
 	}sal;
 
 	struct login_details
@@ -43,13 +45,13 @@ private:
 protected:
 public:
     char* Get_username();
-	 //Returns username
+	//Returns username
     char* Get_password();
     //Returns password
-	 void Set_acc_details(char username[], char password[]);
+	void Set_acc_details(char username[], char password[]);
     //Sets username and password
     int Get_empID();
-	 //Returns empID
+	//Returns empID
     char* Get_name();
 	//Returns name
 	int Get_age();
@@ -67,6 +69,8 @@ public:
 	float Get_TA();
 	float Get_MA();
 	float Get_PF();
+	float Get_grade_pay();
+	float Get_net_sal();
 	void Set_empID(int id);
 	//Sets empID
 	void Set_name(char n[]);
@@ -86,6 +90,8 @@ public:
 	void Set_TA(float ta);
 	void Set_MA(float ma);
 	void Set_PF(float pf);
+	void Set_grade_pay(float grade);
+	void Set_net_sal(float net);
 };
 
 char* Employee::Get_username()
@@ -107,16 +113,16 @@ char* Employee::Get_password()
 	f.read((char*)&acc, sizeof(acc));
 	f.close();
 
-	 return acc.password;
+    return acc.password;
 }
 
 void Employee::Set_acc_details(char username[], char password[])
 {
     fstream f;
-	 f.open("Account.dat", ios::out | ios::binary);
+	f.open("Account.dat", ios::out | ios::binary);
 
     strcpy(acc.username, username);
-	 strcpy(acc.password, password);
+	strcpy(acc.password, password);
 
 	f.write((char*)&acc, sizeof(acc));
 	f.close();
@@ -161,6 +167,12 @@ float Employee::Get_MA()
 float Employee::Get_PF()
 {return sal.PF;}
 
+float Employee::Get_grade_pay()
+{return sal.grade_pay;}
+
+float Employee::Get_net_sal()
+{return sal.net_sal;}
+
 void Employee::Set_empID(int id)
 {empID = id;}
 
@@ -200,6 +212,12 @@ void Employee::Set_MA(float ma)
 void Employee::Set_PF(float pf)
 {sal.PF = pf;}
 
+void Employee::Set_grade_pay(float grade)
+{sal.grade_pay = grade;}
+
+void Employee::Set_net_sal(float net)
+{sal.net_sal = net;}
+
                                         ///////////////////////////////////////////
 
 class Design
@@ -207,7 +225,7 @@ class Design
 private:
 protected:
 public:
-	 void Border(char ch);
+	void Border(char ch);
     //Creates a border using specified character 'ch'
     void Box(int x, int y, int l, int b, char ch);
 	//Creates a box on (x ,y) coordinate of specified character 'ch' and dimensions lxb
@@ -216,10 +234,10 @@ public:
 	void ClearLoginBox();
     //Clears login details entry boxes
     void ClearLoginMessage();
-	 //Clears login messages
+	//Clears login messages
     void ClearChangePasswordBox();
     //Clears login details entry boxes
-	 void ClearChangePasswordMessage();
+	void ClearChangePasswordMessage();
     //Clears login messages
     void ClearStrength();
 	//Clears password strength
@@ -228,7 +246,7 @@ public:
 	//Could be a fun way to display a border
     void Delay(int a);
 	//Creates a delay which can be adjusted using 'a'
-	 void Delayed_text(int x, int y, char string[]);
+	void Delayed_text(int x, int y, char string[]);
 	//Creates a small welcome sign
 	void Star_top_L();        //     These 4 functions
 	void Star_top_R();        //     are used to create the '*'
@@ -311,7 +329,7 @@ void Design::ClearLoginBox()
 		  gotoxy(36 + i, 13);
         cout << ' ';
     }
-	 for(int j = 0; j < 19; ++j)
+	for(int j = 0; j < 19; ++j)
     {
         gotoxy(36 + j, 16);
 		  cout << ' ';
@@ -320,10 +338,10 @@ void Design::ClearLoginBox()
 
 void Design::ClearLoginMessage()
 {
-	 for(int i = 0; i < 23; ++i)
+	for(int i = 0; i < 23; ++i)
     {
         gotoxy(30 + i, 19);
-		  cout << ' ';
+        cout << ' ';
     }
     for(int j = 0; j < 23; ++j)
 	 {
@@ -662,10 +680,10 @@ int Help::NumberCount(char sent[])
 {
     int count = 0;
 
-	 for(int i = 0; sent[i] != 0; ++i)
+    for(int i = 0; sent[i] != 0; ++i)
         if((sent[i] == '0' || sent[i] == '1' || sent[i] == '2' || sent[i] == '3' || sent[i] == '4' ||
            sent[i] == '5' || sent[i] == '6' || sent[i] == '7' || sent[i] == '8' || sent[i] == '9') && isdigit(sent[i]))
-				++count;
+            ++count;
 
     return count;
 }
@@ -674,7 +692,7 @@ int Help::SpecialCount(char sent[])
 {
     int count = 0;
 
-	 for(int i = 0; sent[i] != 0; ++i)
+	for(int i = 0; sent[i] != 0; ++i)
         if(!isalpha(sent[i]) && !isdigit(sent[i]))
             ++count;
 
@@ -683,13 +701,13 @@ int Help::SpecialCount(char sent[])
 
 int Help::UpperCount(char sent[])
 {
-	 int count = 0;
+	int count = 0;
 
     for(int i = 0; sent[i] != 0; ++i)
-		  if(isupper(sent[i]) && isalpha(sent[i]))
+        if(isupper(sent[i]) && isalpha(sent[i]))
             ++count;
 
-	 return count;
+    return count;
 }
 
 long Help::StringToInt(char str[])
@@ -729,13 +747,11 @@ protected:
 public:
     void Login();
     void Main_menu();
-	 void Add_emp();
+	void Add_emp();
     void Search_menu();
     void Search_empno();
-	 void Search_name();
+	void Search_name();
     void Search_dept();
-	void Salary_menu();
-	 void Salary_GetDetails();
 	void Salary_slip();
 	void Modify_menu();
 	void Reports();
@@ -778,41 +794,41 @@ void Program::Login()
     while(6 != 9)
     {
 		  if(p > 18)
-            gotoxy(54, 16);
-        else
+	    gotoxy(54, 16);
+	else
 				gotoxy(36 + p, 16);
 		  pass = getch();
 
 		  if(pass == 13)
-        {
-            password[p] = '\0';
+	{
+	    password[p] = '\0';
 				break;
-        }
-        else if(pass == 8)
+	}
+	else if(pass == 8)
 		  {
-            if(p != 0)
-            {
+	    if(p != 0)
+	    {
 					 if(p <= 19)
-                {
+		{
 					gotoxy(35 + p, 16);
 						  cout << ' ';
-                }
-                --p;
+		}
+		--p;
 					 password[p] = 0;
-            }
-        }
+	    }
+	}
 		  else if(p > 18)
-        {
-            password[p] = pass;
+	{
+	    password[p] = pass;
 				++p;
-            password[p] = 0;
-        }
+	    password[p] = 0;
+	}
 		  else
-        {
-            password[p] = pass;
+	{
+	    password[p] = pass;
 				cout << '*';
-            ++p;
-            password[p] = 0;
+	    ++p;
+	    password[p] = 0;
 		  }
     }
 
@@ -949,7 +965,7 @@ void Program::Main_menu()
 				Search_menu();
 				break;
 			case 51:
-				Salary_menu();
+				Salary_slip();
 				break;
 			case 52:
 				Modify_menu();
@@ -985,8 +1001,8 @@ void Program::Add_emp()
 	int N;
 	char resp[20];
 
-	int empid, age;
-	char name[20], desig[20], dept[20], empid_c[20], age_c[20], telno_c[20];
+	int empid, age, grade_pay;
+	char name[20], desig[20], dept[20], empid_c[20], age_c[20], telno_c[20], grade_pay_c[20];
 	long telno;
 
 	_add_emp:
@@ -1031,6 +1047,8 @@ void Program::Add_emp()
 		cout << "Designation";
 		gotoxy(5, 16);
 		cout << "Department";
+		gotoxy(5, 18);
+		cout << "Grade Pay";
 		gotoxy(39, 6);
 		cout << ":";
 		gotoxy(39, 8);
@@ -1043,7 +1061,9 @@ void Program::Add_emp()
 		cout << ":";
 		gotoxy(39, 16);
 		cout << ":";
-		Line(3, 78, 17, '_');
+		gotoxy(39, 18);
+		cout << ":";
+		Line(3, 78, 19, '_');
 
 		//Getting Employee Details as Input
 		empid_check:
@@ -1068,7 +1088,7 @@ void Program::Add_emp()
 
 		if(strlen(name) == 0)
 		{
-        	gotoxy(35, 22);
+		gotoxy(35, 22);
 			cout << "Invalid Input!";
 			Delay(2000);
 			Line(35, 50, 22, ' ');
@@ -1082,14 +1102,14 @@ void Program::Add_emp()
 
 		if(!IntCheck(age_c) || strlen(age_c) == 0)
 		{
-        	gotoxy(35, 22);
+		gotoxy(35, 22);
 			cout << "Invalid Input!";
 			Delay(2000);
 			Line(35, 50, 22, ' ');
 			goto age_check;
 		}
 		else
-			empid = StringToInt(age_c);
+			age = StringToInt(age_c);
 
 		telno_check:
 		Line(45, 60, 12, ' ');
@@ -1098,14 +1118,14 @@ void Program::Add_emp()
 
 		if(!IntCheck(telno_c) || strlen(telno_c) == 0)
 		{
-        	gotoxy(35, 22);
+		gotoxy(35, 22);
 			cout << "Invalid Input!";
 			Delay(2000);
 			Line(35, 50, 22, ' ');
 			goto telno_check;
 		}
 		else
-			empid = StringToInt(telno_c);
+			telno = StringToInt(telno_c);
 
 		desig_check:
 		gotoxy(45, 14);
@@ -1113,7 +1133,7 @@ void Program::Add_emp()
 
 		if(strlen(desig) == 0)
 		{
-        	gotoxy(35, 22);
+		gotoxy(35, 22);
 			cout << "Invalid Input!";
 			Delay(2000);
 			Line(35, 50, 22, ' ');
@@ -1133,12 +1153,28 @@ void Program::Add_emp()
 			goto dept_check;
 		}
 
+		grade_pay_check:
+		Line(45, 60, 18, ' ');
+		gotoxy(45, 18);
+		gets(grade_pay_c);
+
+		if(!IntCheck(grade_pay_c) || strlen(grade_pay_c) == 0)
+		{
+		gotoxy(35, 22);
+			cout << "Invalid Input!";
+			Delay(2000);
+			Line(35, 50, 22, ' ');
+			goto grade_pay_check;
+		}
+		else
+			grade_pay = StringToInt(grade_pay_c);
+
 		resp_check:
-		Line(13, 78, 20, ' ');
 		Line(13, 78, 21, ' ');
-		gotoxy(13, 20);
+		Line(13, 78, 22, ' ');
+		gotoxy(13, 21);
 		cout << "Are you sure you want this employee to be recorded? (Yes/No)";
-		gotoxy(38, 21);
+		gotoxy(38, 22);
 		gets(resp);
 
 		if(!strcmpi(resp, "Yes") || !strcmpi(resp, "Y"))
@@ -1149,15 +1185,16 @@ void Program::Add_emp()
 			E.Set_telno(telno);
 			E.Set_desig(desig);
 			E.Set_dept(dept);
+			E.Set_grade_pay(grade_pay);
 
 			f.write((char*)&E, sizeof(E));
 
-			Line(13, 78, 20, ' ');
 			Line(13, 78, 21, ' ');
-			gotoxy(31, 20);
+			Line(13, 78, 22, ' ');
+			gotoxy(31, 21);
 			cout << "Writing into database";
-			Delayed_text(52, 20, ".....");
-			gotoxy(29, 21);
+			Delayed_text(52, 21, ".....");
+			gotoxy(29, 22);
 			cout << "Employee Recorded Sucessfully";
 		}
 		else if(!strcmpi(resp, "No") || !strcmpi(resp, "N"))
@@ -1180,6 +1217,14 @@ void Program::Search_menu()
 	 *  Create necessary functions in Employee
 	 *  - Sasuke Uchiha
 	 */
+
+    clrscr();
+	Border('*');
+
+	Line(3, 78, 4, '_');
+	gotoxy(35, 3);
+	cout << "Search Employee";
+	getch();
 }
 
 void Program::Search_empno()
@@ -1197,9 +1242,8 @@ void Program::Search_dept()
 	 clrscr();
 }
 
-void Program::Salary_menu()
+void Program::Salary_slip()
 {
-	 clrscr();
 	/*
 	 *  Hey Kassim,
 	 *  Write the code of a salary MENU here similar to Main Menu
@@ -1207,57 +1251,81 @@ void Program::Salary_menu()
 	 *  Create necessary functions in Employee
 	 *  - Sasuke Uchiha
 	 */
-}
+	Employee E;
+	int id;
+	clrscr();
+	Border('*');
+	gotoxy(35, 3);
+	 cout << "Salary Slip";
 
-void Program::Salary_GetDetails()
-{
-	 clrscr();
-}
 
-void Program::Salary_slip()
-{
-	 clrscr();
+	Line(3, 78, 4, '_');
+	Line(3, 78, 11, '*');
+
+	gotoxy(5, 13);
+	cout<<"Enter Employee ID of the employee whose salary slip are to be displayed:\n";
+
+	Line(3, 78, 16, '*');
+
+    getch();
+
 }
 
 void Program::Modify_menu()
 {
-	 fstream f_find;
-	 Employee E;
-	 int ID;
+    fstream f_find;
+	Employee E;
+	int ID;
 
-	 clrscr();
-	 Border('*');
+	clrscr();
+	Border('*');
 
-	 Line(3, 78, 4, '_');
-	 gotoxy(35, 3);
-	 cout << "Modify Details";
+	Line(3, 78, 4, '_');
+	gotoxy(35, 3);
+	cout << "Modify Details";
 
-	 Line(3, 78, 11, '*');
-	 Line(3, 78, 16, '*');
-	 gotoxy(7, 13);
-	 cout << "Enter Employee ID of the employee whose details are to be modified:\n";
-	 gotoxy(39, 14);
-	 cin >> ID;
+	Line(3, 78, 11, '*');
+	Line(3, 78, 16, '*');
+	gotoxy(7, 13);
+	cout << "Enter Employee ID of the employee whose details are to be modified:\n";
+	gotoxy(39, 14);
+	cin >> ID;
 
-	 f_find.open("Employee.dat", ios::in | ios::binary);
+	f_find.open("Employee.dat", ios::in | ios::binary);
 
-	 while(f_find.read((char*)&E, sizeof(E)))
-	 {
+	while(f_find.read((char*)&E, sizeof(E)))
+	{
 
-	 }
+	}
 
-	 getch();
+	getch();
 }
 
 void Program::Reports()
 {
-	 clrscr();
 	/*
 	 *  Hey Madesh,
 	 *  Write the code for creating a tabular representation of every detail of every employee
 	 *  Create an input function in class Employee
 	 *  - Sasuke Uchiha
 	 */
+
+	Employee E;
+	int id;
+    clrscr();
+	Border('*');
+
+
+	Line(3, 78, 4, '_');
+	gotoxy(35, 3);
+	cout << "Reports";
+
+    Line(3, 78, 11, '*');
+	gotoxy(35, 12);
+	cout << "Enter the Id no";
+	Line(3, 78, 14, '*');
+	getch();
+
 }
 
 int Program::Change_password()
@@ -1342,7 +1410,7 @@ int Program::Change_password()
 		  }
 
 		  //Checking and Updating Strength
-		number = NumberCount(new_password);
+		  number = NumberCount(new_password);
 		  special = SpecialCount(new_password);
 		  upper = UpperCount(new_password);
 		  if(strlen(new_password) < 8)
@@ -1450,7 +1518,7 @@ int Program::Change_password()
 				Set_acc_details(Get_username(), new_password);
 				gotoxy(29, 17);
 				cout << "Password change sucessful";
-				Delay(2000);
+				Delay(3500);
 		  }
 	 }
 }
@@ -1484,6 +1552,6 @@ int main()
 	Help H;
 	Program P;
 
-	P.Login();
+	P.Main_menu();
 	getch();
 }
