@@ -1209,6 +1209,7 @@ void Program::Add_emp()
 void Program::Search_menu()
 {
 	 clrscr();
+
 	/*
 	 *  Hey Aradhan,
 	 *  Write the code of a search employee MENU here similar to Main Menu
@@ -1217,28 +1218,104 @@ void Program::Search_menu()
 	 *  - Sasuke Uchiha
 	 */
 
-    clrscr();
+	 clrscr();
 	Border('*');
 
 	Line(3, 78, 4, '_');
 	gotoxy(35, 3);
-	cout << "Search Employee";
-	getch();
+ int option_;
+	 clrscr();
+	 Border('*');
+	  gotoxy(32, 10);
+			 cout << "1. Search Employee by Employee number";
+		  gotoxy(32, 11);
+			 cout << "2. Search Employee by Name";
+		  gotoxy(32, 12);
+		  cout << "3. Search Employee by Dept.";
+		  gotoxy(32, 13);
+			 cout<<  "4. Back to Main Menu ";
+		  gotoxy(30, 18);
+		  cout << "Choose an option: ";
+		  cin >> option_;
+
+		  switch(option_)
+		  {
+		  case 1:
+				Search_empno();
+				break;
+		  case 2:
+				Search_name();
+				break;
+		  case 3:
+				Search_dept();
+				break;
+		  case 4:
+				Main_menu();
+				break;
+		 default:
+				gotoxy(30, 19);
+				cout << "Invalid option!!!";
+				Delay(2000);
+		  }
 }
 
 void Program::Search_empno()
 {
 	 clrscr();
+    Border('*');
+
+	Line(3, 78, 4, '_');
+	  Employee E;
+	 long Eempno;
+	 gotoxy(30,15);
+	 cout<< "Enter the Employee Number :";
+	 cin>>Eempno;
+	 fstream fin("Employee.dat",ios::in | ios::binary);
+	 while(!fin.eof())
+  {
+	fin.read((char*)&E,sizeof(E));
+	 if(E.Get_empID()==Eempno)
+		  Reports();
+
+
+  }
+ fin.close();
 }
 
 void Program::Search_name()
 {
 	 clrscr();
+	 Employee E;
+	 char Eempname[35];
+	 gotoxy(30,15);
+	 cout<< "Enter the Employee Name :";
+	 gets(Eempname);
+	 fstream fin("Employee.dat",ios::in | ios::binary);
+	 fin.open("Employee.dat",ios::in | ios::binary);
+	 while(fin.read((char*)&E,sizeof(E)))
+	{
+	  if(strcmp(E.Get_name(),Eempname)==0)
+		  Reports();
+	}
+ fin.close();
 }
 
 void Program::Search_dept()
 {
 	 clrscr();
+	  Employee E;
+	 char EempDept[35];
+	 gotoxy(30,15);
+	 cout<< "Enter the Employee's Department :";
+	 cin>>EempDept;
+	 fstream fin("Employee.dat",ios::in | ios::binary);
+	 fin.open("Employee.dat",ios::in | ios::binary);
+	 while(fin.read((char*)&E,sizeof(E)))
+	{
+	  if(strcmp(E.Get_dept(),EempDept)==0)
+		  Reports();
+	}
+	fin.close();
 }
 
 void Program::Salary_slip()
