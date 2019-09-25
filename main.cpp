@@ -232,6 +232,8 @@ public:
 	//Creates a box on (x ,y) coordinate of specified character 'ch' and dimensions lxb
 	void Line(int x1, int x2, int y, char ch);
 	//Creates a line from (x1, y) to (x2, y) of specified character 'ch'
+	void Line2(int x, int y1, int y2, char ch);
+    //Creates a line from (x, y1) to (x, y2) of specified character 'ch'
 	void ClearLoginBox();
     //Clears login details entry boxes
     void ClearLoginMessage();
@@ -319,6 +321,15 @@ void Design::Line(int x1, int x2, int y, char ch)
 	for(int i = x1; i <= x2; ++i)
 	{
 		gotoxy(i, y);
+		cout << ch;
+	}
+}
+
+void Design::Line2(int x, int y1, int y2, char ch)
+{
+	for(int i = y1; i <= y2; ++i)
+	{
+		gotoxy(x, i);
 		cout << ch;
 	}
 }
@@ -804,7 +815,8 @@ public:
 	void Modify_dept(int id);
 	void Modify_grade_pay(int id);
 	void Modify_SD(int id);
-	void Reports();
+	int Reports();
+	int Reports(int id);
 	int Change_password();
 	void Logs();
     int Exit(char ch);
@@ -1263,6 +1275,7 @@ int Program::Add_emp()
 			E.Set_desig(desig);
 			E.Set_dept(dept);
 			E.Set_grade_pay(grade_pay);
+			E.Set_net_sal(0);
 
 			f.write((char*)&E, sizeof(E));
 
@@ -1342,19 +1355,19 @@ int Program::Search_menu()
 
 
 	Line(3, 78, 4, '_');
-	gotoxy(35, 3);
+	gotoxy(33, 3);
 	cout << "Search Employee";
 
     int option_;
-    gotoxy(32, 10);
+    gotoxy(22, 10);
     cout << "1. Search Employee by Employee number";
-    gotoxy(32, 11);
+    gotoxy(22, 11);
     cout << "2. Search Employee by Name";
-    gotoxy(32, 12);
+    gotoxy(22, 12);
     cout << "3. Search Employee by Dept.";
-    gotoxy(32, 13);
+    gotoxy(22, 13);
     cout<<  "4. Back to Main Menu ";
-    gotoxy(30, 18);
+    gotoxy(26, 18);
     cout << "Choose an option: ";
     cin >> option_;
 
@@ -1381,72 +1394,76 @@ int Program::Search_menu()
 
 void Program::Search_empno()
 {
+	Employee E;
+	long Eempno;
+	fstream fin;
+
     clrscr();
 	Border('*');
 
-
 	Line(3, 78, 4, '_');
-	gotoxy(35, 3);
+	gotoxy(33, 3);
 	cout << "Search Employee";
 
-	Employee E;
-	long Eempno;
-	gotoxy(30,15);
+	gotoxy(25,12);
 	cout<< "Enter the Employee Number :";
 	cin>>Eempno;
-	fstream fin("Employee.dat",ios::in | ios::binary);
+
+	fin.open("Employee.dat",ios::in | ios::binary);
 	while(fin.read((char*)&E, sizeof(E)))
     {
         if(E.Get_empID()== Eempno)
-            Reports();
+			Reports(E.Get_empID());
     }
     fin.close();
 }
 
 void Program::Search_name()
 {
+	Employee E;
+	char Eempname[35];
+	fstream fin;
+
     clrscr();
 	Border('*');
 
-
 	Line(3, 78, 4, '_');
-	gotoxy(35, 3);
+	gotoxy(33, 3);
 	cout << "Search Employee";
-	Employee E;
-	char Eempname[35];
-	gotoxy(30,15);
+	gotoxy(25,12);
 	cout<< "Enter the Employee Name :";
 	gets(Eempname);
-	fstream fin;
+
 	fin.open("Employee.dat",ios::in | ios::binary);
 	while(fin.read((char*)&E, sizeof(E)))
 	{
-        if(strcmp(E.Get_name(), Eempname) == 0)
-            Reports();
+		if(strcmp(E.Get_name(), Eempname) == 0)
+			Reports(E.Get_empID());
 	}
     fin.close();
 }
 
 void Program::Search_dept()
 {
-    clrscr();
-	Border('*');
-
-
-	Line(3, 78, 4, '_');
-	gotoxy(35, 3);
-	cout << "Search Employee";
 	Employee E;
 	char EempDept[35];
-	gotoxy(30,15);
-	cout<< "Enter the Employee's Department :";
-	cin>>EempDept;
 	fstream fin;
+
+	clrscr();
+	Border('*');
+
+	Line(3, 78, 4, '_');
+	gotoxy(33, 3);
+	cout << "Search Employee";
+	gotoxy(25,12);
+	cout << "Enter the Employee's Department :";
+	cin >> EempDept;
+
 	fin.open("Employee.dat",ios::in | ios::binary);
 	while(fin.read((char*)&E,sizeof(E)))
 	{
         if(strcmp(E.Get_dept(), EempDept) == 0)
-            Reports();
+			Reports(E.Get_empID());
 	}
 	fin.close();
 }
@@ -2241,7 +2258,7 @@ void Program::Modify_SD(int id)
 	f.close();
 }
 
-void Program::Reports()
+int Program::Reports()
 {
 	/*
 	 *  Hey Madesh,
@@ -2249,23 +2266,218 @@ void Program::Reports()
 	 *  Create an input function in class Employee
 	 *  - Sasuke Uchiha
 	 */
-
+    fstream f;
 	Employee E;
-	int id;
+	int id, r, found;
+
+	_reset:
+	found = 0;
 	clrscr();
 	Border('*');
 
-
 	Line(3, 78, 4, '_');
-	gotoxy(35, 3);
+	gotoxy(39, 3);
 	cout << "Reports";
 
-    Line(3, 78, 11, '*');
-	gotoxy(35, 12);
-	cout << "Enter the Id no";
-	Line(3, 78, 14, '*');
-	getch();
+	Line(3, 78, 11, '*');
+	Line(3, 78, 16, '*');
+	gotoxy(32, 13);
+	cout << "Enter the Employee ID";
+	gotoxy(40, 14);
+	cin >> id;
 
+	f.open("Employee.dat", ios::in | ios::binary);
+	while(f.read((char*)&E, sizeof(E)))
+		if(id == E.Get_empID())
+		{
+		    found = 1;
+			clrscr();
+			Border('*');
+			Line(3, 78, 4, '_');
+			gotoxy(39, 3);
+			cout << "Reports";
+			Line2(25, 5, 24, '|');
+			Delay(512);
+
+			gotoxy(5, 6);
+			cout << "Employee ID";
+			gotoxy(32, 6);
+			cout << E.Get_empID();
+			Delay(512);
+
+			gotoxy(5, 9);
+			cout << "Name";
+			gotoxy(32, 9);
+			cout << E.Get_name();
+			Delay(512);
+
+			gotoxy(5, 12);
+			cout << "Age";
+			gotoxy(32, 12);
+			cout << E.Get_age();
+			Delay(512);
+
+			gotoxy(5, 15);
+			cout << "Telephone Number";
+			gotoxy(32, 15);
+			cout << "+973 " << E.Get_telno();
+			Delay(512);
+
+			gotoxy(5, 18);
+			cout << "Designation";
+			gotoxy(32, 18);
+			cout << E.Get_desig();
+			Delay(512);
+
+			gotoxy(5, 21);
+			cout << "Department";
+			gotoxy(32, 21);
+			cout << E.Get_dept();
+			Delay(512);
+
+			gotoxy(5, 24);
+			cout << "Net salary";
+			gotoxy(32, 24);
+			cout << "$ " << E.Get_net_sal();
+			Delay(512);
+
+			Line(3, 24, 7, '_');
+			Line(3, 24, 10, '_');
+			Line(3, 24, 13, '_');
+			Line(3, 24, 16, '_');
+			Line(3, 24, 19, '_');
+			Line(3, 24, 22, '_');
+
+			Line(26, 78, 7, '_');
+			Line(26, 78, 10, '_');
+			Line(26, 78, 13, '_');
+			Line(26, 78, 16, '_');
+			Line(26, 78, 19, '_');
+			Line(26, 78, 22, '_');
+
+            gotoxy(100, 100);
+            getch();
+
+			break;
+		}
+    f.close();
+
+    if(found == 0)
+    {
+        clrscr();
+        Border('*');
+
+        Line(3, 78, 4, '_');
+        gotoxy(39, 3);
+        cout << "Reports";
+
+        Line(3, 78, 11, '*');
+        Line(3, 78, 16, '*');
+        gotoxy(29, 13);
+        cout<<"Selected ID does not exist";
+        gotoxy(23, 14);
+        cout<<"Press Enter to try again or Esc to exit";
+        _resp_check:
+        Line(35, 50, 15, ' ');
+        gotoxy(100, 100);
+        r = getch();
+
+        if(r == 13)
+            goto _reset;
+        else if(r ==  27)
+            return 0;
+        else
+        {
+            Line(29, 70, 13, ' ');
+            Line(23, 70, 14, ' ');
+            gotoxy(30, 14);
+            cout << "Invalid Input!";
+            Delay(3500);
+            Line(30, 70, 14, ' ');
+            goto _resp_check;
+        }
+    }
+}
+
+int Program::Reports(int id)
+{
+	fstream f;
+	Employee E;
+
+	f.open("Employee.dat", ios::in | ios::binary);
+	while(f.read((char*)&E, sizeof(E)))
+		if(id == E.Get_empID())
+		{
+			clrscr();
+			Border('*');
+			Line(3, 78, 4, '_');
+			gotoxy(39, 3);
+			cout << "Reports";
+			Line2(25, 5, 24, '|');
+			Delay(512);
+
+			gotoxy(5, 6);
+			cout << "Employee ID";
+			gotoxy(32, 6);
+			cout << E.Get_empID();
+			Delay(512);
+
+			gotoxy(5, 9);
+			cout << "Name";
+			gotoxy(32, 9);
+			cout << E.Get_name();
+			Delay(512);
+
+			gotoxy(5, 12);
+			cout << "Age";
+			gotoxy(32, 12);
+			cout << E.Get_age();
+			Delay(512);
+
+			gotoxy(5, 15);
+			cout << "Telephone Number";
+			gotoxy(32, 15);
+			cout << "+973 " << E.Get_telno();
+			Delay(512);
+
+			gotoxy(5, 18);
+			cout << "Designation";
+			gotoxy(32, 18);
+			cout << E.Get_desig();
+			Delay(512);
+
+			gotoxy(5, 21);
+			cout << "Department";
+			gotoxy(32, 21);
+			cout << E.Get_dept();
+			Delay(512);
+
+			gotoxy(5, 24);
+			cout << "Net salary";
+			gotoxy(32, 24);
+			cout << "$ " << E.Get_net_sal();
+			Delay(512);
+
+			Line(3, 24, 7, '_');
+			Line(3, 24, 10, '_');
+			Line(3, 24, 13, '_');
+			Line(3, 24, 16, '_');
+			Line(3, 24, 19, '_');
+			Line(3, 24, 22, '_');
+
+			Line(26, 78, 7, '_');
+			Line(26, 78, 10, '_');
+			Line(26, 78, 13, '_');
+			Line(26, 78, 16, '_');
+			Line(26, 78, 19, '_');
+			Line(26, 78, 22, '_');
+
+			gotoxy(100, 100);
+            getch();
+
+			break;
+		}
+    f.close();
 }
 
 int Program::Change_password()
