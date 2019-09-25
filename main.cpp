@@ -1072,7 +1072,7 @@ int Program::Add_emp()
 	Border('*');
 
 	Line(3, 78, 4, '_');
-	gotoxy(35, 3);
+	gotoxy(33, 3);
 	cout << "Add New Employee";
 
 	Line(3, 78, 11, '*');
@@ -1342,19 +1342,19 @@ int Program::Search_menu()
 
 
 	Line(3, 78, 4, '_');
-	gotoxy(35, 3);
+	gotoxy(33, 3);
 	cout << "Search Employee";
 
     int option_;
-    gotoxy(32, 10);
+    gotoxy(22, 10);
     cout << "1. Search Employee by Employee number";
-    gotoxy(32, 11);
+    gotoxy(22, 11);
     cout << "2. Search Employee by Name";
-    gotoxy(32, 12);
+    gotoxy(22, 12);
     cout << "3. Search Employee by Dept.";
-    gotoxy(32, 13);
+    gotoxy(22, 13);
     cout<<  "4. Back to Main Menu ";
-    gotoxy(30, 18);
+    gotoxy(26, 18);
     cout << "Choose an option: ";
     cin >> option_;
 
@@ -1386,12 +1386,12 @@ void Program::Search_empno()
 
 
 	Line(3, 78, 4, '_');
-	gotoxy(35, 3);
+	gotoxy(33, 3);
 	cout << "Search Employee";
 
 	Employee E;
 	long Eempno;
-	gotoxy(30,15);
+	gotoxy(25,12);
 	cout<< "Enter the Employee Number :";
 	cin>>Eempno;
 	fstream fin("Employee.dat",ios::in | ios::binary);
@@ -1410,11 +1410,11 @@ void Program::Search_name()
 
 
 	Line(3, 78, 4, '_');
-	gotoxy(35, 3);
+	gotoxy(33, 3);
 	cout << "Search Employee";
 	Employee E;
 	char Eempname[35];
-	gotoxy(30,15);
+	gotoxy(25,12);
 	cout<< "Enter the Employee Name :";
 	gets(Eempname);
 	fstream fin;
@@ -1434,11 +1434,11 @@ void Program::Search_dept()
 
 
 	Line(3, 78, 4, '_');
-	gotoxy(35, 3);
+	gotoxy(33, 3);
 	cout << "Search Employee";
 	Employee E;
 	char EempDept[35];
-	gotoxy(30,15);
+	gotoxy(25,12);
 	cout<< "Enter the Employee's Department :";
 	cin>>EempDept;
 	fstream fin;
