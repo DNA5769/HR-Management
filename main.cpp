@@ -51,6 +51,7 @@ public:
 	//Returns password
 	void Set_acc_details(char username[], char password[]);
 	//Sets username and password
+	void Setup_net_sal();
     void Calculate_net_sal();
     int Get_empID();
 	//Returns empID
@@ -98,24 +99,24 @@ public:
 
 char* Employee::Get_username()
 {
-	fstream f;
-	 f.open("Account.dat", ios::in | ios::binary);
+    fstream f;
+	f.open("Account.dat", ios::in | ios::binary);
 
 	f.read((char*)&acc, sizeof(acc));
 	f.close();
 
-	 return acc.username;
+	return acc.username;
 }
 
 char* Employee::Get_password()
 {
-	 fstream f;
-	 f.open("Account.dat", ios::in | ios::binary);
+	fstream f;
+	f.open("Account.dat", ios::in | ios::binary);
 
 	f.read((char*)&acc, sizeof(acc));
 	f.close();
 
-	 return acc.password;
+	return acc.password;
 }
 
 void Employee::Set_acc_details(char username[], char password[])
@@ -130,9 +131,9 @@ void Employee::Set_acc_details(char username[], char password[])
 	f.close();
 }
 
-void Employee::Calculate_net_sal()
+void Employee::Setup_net_sal()
 {
-	sal.HRA = 0.4 * sal.basic;
+    sal.HRA = 0.4 * sal.basic;
 	sal.PF = 0.12 * sal.basic;
 	sal.DA = 500;
 	sal.MA = 800;
@@ -142,6 +143,11 @@ void Employee::Calculate_net_sal()
 	sal.tax = 0.1 * sal.net_sal;
 
 	sal.net_sal -= sal.tax;
+}
+
+void Employee::Calculate_net_sal()
+{
+	sal.net_sal = sal.grade_pay + sal.basic + sal.HRA + sal.DA + sal.MA + sal.TA - sal.PF - sal.tax;
 }
 
 int Employee::Get_empID()
@@ -272,6 +278,7 @@ public:
 	void Star_bottom_R();     //     Program::Main_menu()
 	void Main_menu_sign();
 	//Displays 'MAIN MENU' in Program::Main_menu()
+    void Wave_ting(char ch);
 };
 
 void Design::Border(char ch)
@@ -549,19 +556,19 @@ void Design::Star_bottom_L()
 }
 void Design::Star_bottom_R()
 {
-	 int z,x;
-	 z=66;
-	 x=13;
-	 for(int a = 3; a <= 14; a++)
+    int z,x;
+	z=66;
+	x=13;
+	for(int a = 3; a <= 14; a++)
 	{
-		  gotoxy(z,x);
-		  for(int b = 14; b > a; b--)
-				cout << " ";
-		  for(int c = 2; c <= a; c++)
-				cout << "*";
+        gotoxy(z,x);
+		for(int b = 14; b > a; b--)
+            cout << " ";
+		for(int c = 2; c <= a; c++)
+            cout << "*";
 
-		  cout << '\n';
-		  x++;
+		cout << '\n';
+		x++;
 	 }
 }
 
@@ -599,14 +606,14 @@ void Design::Main_menu_sign()
 		}
 	}
 
-	x = 10;
+    x = 10;
 
 	for(int d = 1; d <= 2; d++)
 	{
 		gotoxy(13,x);
-		  cout << "__";
-		  x+=2;
-	 }
+		cout << "__";
+		x+=2;
+	}
 
 	 x = 10;
 	 z = 22;
@@ -635,7 +642,7 @@ void Design::Main_menu_sign()
 		  x++;
 	 }
 
-	 for(int h = 1; h <= 2; h++)
+    for(int h = 1; h <= 2; h++)
 	{
 		if(h == 1)
 		{
@@ -654,16 +661,16 @@ void Design::Main_menu_sign()
 
 	 for(int i = 1; i <= 3; i++)
 	 {
-		  gotoxy(z,x);
-		if(i == 2)
-				cout << "--";
-		  else if(i==1)
-		  {
-				cout << "___";
-				x++;
-		  }
-		  else
-				cout << "___";
+        gotoxy(z,x);
+        if(i == 2)
+            cout << "--";
+        else if(i==1)
+        {
+            cout << "___";
+            x++;
+        }
+        else
+            cout << "___";
 
 		  x++;
 	 }
@@ -671,10 +678,10 @@ void Design::Main_menu_sign()
 	 z = 67;
 	 x = 11;
 
-	 for(int j = 1; j <= 2; j++, z++, x++)
-	 {
-		  gotoxy(z,x);
-		  cout << "\\";
+    for(int j = 1; j <= 2; j++, z++, x++)
+	{
+        gotoxy(z,x);
+		cout << "\\";
 	}
 
 	 z = 73;
@@ -683,6 +690,89 @@ void Design::Main_menu_sign()
 	 gotoxy(z,x);
 	 cout << "__";
 
+}
+
+void Design::Wave_ting(char ch)
+{
+    int z,x;
+
+    for(x=5;x<=17;x+=6)
+    {
+        for(z=3;z<=6;z++,x++)
+        {
+            gotoxy(z,x);
+            cout<<ch;
+        }
+    }
+
+    for(x=9;x<20;x+=10)
+    {
+        gotoxy(6,x);
+        cout<<ch;
+    }
+
+    for(z=6;z>2;z--)
+    {
+        for(x=10;x<15;z--,x++)
+        {
+            gotoxy(z,x);
+            cout<<ch;
+        }
+    }
+
+    for(x=4;x<=15;x+=10)
+    {
+        gotoxy(2,x);
+        cout<<ch;
+    }
+
+    for(z=6;z>2;z--)
+    {
+        for(x=20;x<24;z--,x++)
+        {
+            gotoxy(z,x);
+            cout<<ch;
+        }
+    }
+
+    for(x=5;x<=17;x+=6)
+    {
+        for(z=75;z<=78;z++,x++)
+        {
+            gotoxy(z,x);
+            cout<<ch;
+        }
+    }
+
+    for(x=9;x<20;x+=10)
+    {
+        gotoxy(79,x);
+        cout<<ch;
+    }
+
+    for(z=78;z>77;z--)
+    {
+        for(x=10;x<14;z--,x++)
+        {
+            gotoxy(z,x);
+            cout<<ch;
+        }
+    }
+
+    for(x=4;x<=25;x+=10)
+    {
+        gotoxy(75,x);
+        cout<<ch;
+    }
+
+    for(z=78;z>75;z--)
+    {
+        for(x=20;x<24;z--,x++)
+        {
+            gotoxy(z,x);
+            cout<<ch;
+        }
+    }
 }
 
 										///////////////////////////////////////////
@@ -815,14 +905,16 @@ class Program : public Employee, public Design, public Help
 private:
 protected:
 public:
-	 void Login();
-	 void Main_menu();
+	void Login();
+	void Main_menu();
 	int Add_emp();
-	 int Search_menu();
-	 void Search_empno();
+	int Search_menu();
+	void Search_empno();
 	void Search_name();
-	 void Search_dept();
-	void Salary_slip();
+	void Search_dept();
+	void Search_desig();
+	void Search_age();
+	int Salary_slip();
 	int Modify_menu();
 	void Modify_name(int id);
 	void Modify_telno(int id);
@@ -834,7 +926,7 @@ public:
 	int Reports(int id);
 	int Change_password();
 	void Logs();
-	 int Exit(char ch);
+	int Exit(char ch);
 };
 
 void Program::Login()
@@ -1308,7 +1400,7 @@ int Program::Add_emp()
             else if(!strcmp(desig, "Assistant"))
                 E.Set_basic(1500);
 
-            E.Calculate_net_sal();
+            E.Setup_net_sal();
 
 			f.write((char*)&E, sizeof(E));
 			f_log << "Employee " << empid << " has been added" << endl;
@@ -1386,101 +1478,118 @@ int Program::Search_menu()
 	 */
 
 	clrscr();
-	Border('*');
 
 
-    Line(3, 78, 4, '_');
+	 char selection[20];
+	 int option = 49;
+	do
+	{
+	 Wave_ting('#');
+		 Line(3, 78, 4, '_');
 	gotoxy(33, 3);
 	cout << "Search Employee";
+		Border('*');
+		Box(21, 7, 36, 10, '!');
 
-    int option_;
-	gotoxy(22, 10);
-	cout << "1. Search Employee by Employee number";
-	gotoxy(22, 11);
-	cout << "2. Search Employee by Name";
-	gotoxy(22, 12);
-	cout << "3. Search Employee by Dept.";
-	gotoxy(22, 13);
-	cout<<  "4. Back to Main Menu ";
-	gotoxy(26, 18);
-	cout << "Choose an option: ";
-	cin >> option_;
-
-	switch(option_)
-	{
-	case 1:
-        Search_empno();
-        break;
-    case 2:
-        Search_name();
-        break;
-	case 3:
-        Search_dept();
-        break;
-	case 4:
-        return 0;
-        break;
-	default:
-        gotoxy(30, 19);
-        cout << "Invalid option!!!";
-        Delay(2000);
-	}
-}
-
-void Program::Search_empno()
-{
-	Employee E;
-	long Eempno;
-	fstream fin;
-
-    clrscr();
-	Border('*');
-
-	Line(3, 78, 4, '_');
-	gotoxy(33, 3);
-	cout << "Search Employee";
-
-	Line(3, 78, 11, '*');
-	Line(3, 78, 14, '*');
-	gotoxy(25,12);
-	cout<< "Enter the Employee Number :";
-	cin>>Eempno;
-	Line(3, 78, 14, '*');
-
-	fin.open("Employee.dat",ios::in | ios::binary);
-    while(fin.read((char*)&E, sizeof(E)))
-	{
-        if(E.Get_empID()== Eempno)
+		switch(option)
 		{
+		case 49:
+			Line(21, 57, 9, '*');
+			gotoxy(23, 8);
+			cout << "->";
+			break;
+		case 50:
+			Line(21, 57, 9, '*');
+			Line(21, 57, 11, '*');
+			gotoxy(23, 10);
+			cout << "->";
+			break;
+		case 51:
+			Line(21, 57, 11, '*');
+			Line(21, 57, 13, '*');
+			gotoxy(23, 12);
+			cout << "->";
+			break;
+		case 52:
+			Line(21, 57 , 13, '*');
+			Line(21, 57, 15, '*');
+			gotoxy(23, 14);
+			cout << "->";
+			break;
+		case 53:
+			Line(21, 57, 15, '*');
+			Line(21, 57, 17, '*');
+			gotoxy(23, 16);
+			cout << "->";
+			break;
 
-            gotoxy(31, 21);
-			cout << "Searching database";
-			Delayed_text(49, 21, "....");
-			gotoxy(35, 22);
-			cout << "Employee Found!";
-			Delay(67000);
-			Reports(E.Get_empID());
+		}
+
+		gotoxy(25, 8);
+		cout << "1. Search Employee by Name";
+		gotoxy(25, 10);
+		cout << "2. Search Employee by Dept.";
+		gotoxy(25, 12);
+		cout << "3. Search Employee by Desig.";
+		gotoxy(25, 14);
+		cout << "4. Search Employee by Age";
+		gotoxy(25, 16);
+		cout << "5. Back to Main menu";
+
+
+		gotoxy(25, 22);
+		cout << "Select your desired option (1-5)";
+		gotoxy(20, 23);
+		cout << "Press 'Enter' to finalize your selection: ";
+		gets(selection);
+
+		if(selection[0] >= 49 && selection[0] <= 53 && strlen(selection) == 1)
+			option = selection[0];
+		else if(strlen(selection) == 0)
+		{
+			switch(option)
+			{
+			case 49:
+				Search_name();
+				break;
+			case 50:
+				Search_dept();
+				break;
+			case 51:
+				Search_desig();
+				break;
+			case 52:
+				Search_age();
+				break;
+			case 53:
+				return 0;
+				break;
+			}
 		}
 		else
 		{
-            gotoxy(32, 21);
-            cout << "Searching database";
-            Delayed_text(50, 21, "....");
-            gotoxy(29, 22);
-            cout << "Employee Not Found!";
-        }
-	}
-    fin.close();
+			Line(25, 67, 22, ' ');
+			Line(20, 66, 23, ' ');
+			gotoxy(30, 22);
+			cout << "Invalid Selection";
+			Delay(2000);
+		}
+	 clrscr();
+	 }while(6 != 9);
+
 }
+
+
 
 void Program::Search_name()
 {
+
 	Employee E;
 	char Eempname[35];
 	fstream fin;
 	int count;
-
-    clrscr();
+	 next:
+	 clrscr();
 	Border('*');
 
 	Line(3, 78, 11, '*');
@@ -1488,6 +1597,7 @@ void Program::Search_name()
 	Line(3, 78, 4, '_');
 	gotoxy(33, 3);
 	cout << "Search Employee";
+
 
 	gotoxy(25, 13);
 	cout<< "Enter the Employee Name: ";
@@ -1520,7 +1630,12 @@ void Program::Search_name()
 	else
 	{
 
-
+		 gotoxy(28, 20);
+		 cout<<" User not found Or Doesnt exist";
+		 gotoxy(31,23);
+		 cout<<" Please Try again";
+		 Delay(2000);
+		 goto next;
 
 	}
 }
@@ -1532,6 +1647,7 @@ void Program::Search_dept()
 	fstream fin;
 	int count;
 
+	next:
 	clrscr();
 	Border('*');
 
@@ -1572,38 +1688,303 @@ void Program::Search_dept()
 	else
 	{
 
+		 gotoxy(25, 20);
+		 cout<<" User not found Or Doesnt exist";
+		 gotoxy(29,22);
+		 cout<<" Please Try again";
+		 Delay(2000);
+		 goto next;
 
 
 	}
 }
 
-void Program::Salary_slip()
+void Program::Search_desig()
 {
-	/*
-	 *  Hey Kassim,
-	 *  Write the code of a salary MENU here similar to Main Menu
-	 *  Where user can enter numbers and choose either Details or Salary Slip
-	 *  Create necessary functions in Employee
-	 *  - Sasuke Uchiha
-	 */
 	Employee E;
-	int id;
+	char EempDesig[45];
+	fstream fin;
+	int count;
+
+	next:
 	clrscr();
 	Border('*');
-	gotoxy(35, 3);
-	cout << "Salary Slip";
-
 
 	Line(3, 78, 4, '_');
+	gotoxy(33, 3);
+	cout << "Search Employee";
+
 	Line(3, 78, 11, '*');
+	Line(3, 78, 15, '*');
+	gotoxy(25,13);
+	cout << "Enter the Employee's Designation: ";
+	cin >> EempDesig;
 
-	gotoxy(5, 13);
-	cout<<"Enter Employee ID of the employee whose salary slip are to be displayed:\n";
+	count = 0;
+	fin.open("Employee.dat",ios::in | ios::binary);
+	while(fin.read((char*)&E,sizeof(E)))
+		if(!strcmp(E.Get_desig(), EempDesig))
+			++count;
+	fin.close();
 
+	if(count>=1)
+	{
+		Line(25, 70, 13, ' ');
+		gotoxy(30, 13);
+		if(count == 1)
+			cout << count << " Employee found";
+		else
+			cout << count << " Employees found";
+		gotoxy(100, 100);
+		getch();
+
+		fin.open("Employee.dat",ios::in | ios::binary);
+		while(fin.read((char*)&E,sizeof(E)))
+			if(!strcmp(E.Get_desig(), EempDesig))
+				Reports(E.Get_empID());
+		fin.close();
+	}
+	else
+	{
+
+		  gotoxy(25, 20);
+		 cout<<" User not found Or Doesnt exist";
+		 gotoxy(29,22);
+		 cout<<" Please Try again";
+		 Delay(2000);
+		 goto next;
+
+
+	}
+}
+
+void Program::Search_age()
+{
+	Employee E;
+	int age;
+	fstream fin;
+	int count;
+
+	next:
+	clrscr();
+	Border('*');
+
+	Line(3, 78, 4, '_');
+	gotoxy(33, 3);
+	cout << "Search Employee";
+
+	Line(3, 78, 11, '*');
+	Line(3, 78, 15, '*');
+	gotoxy(25,13);
+	cout << "Enter the Employee's Age ";
+	cin >> age;
+
+	count = 0;
+	fin.open("Employee.dat",ios::in | ios::binary);
+	while(fin.read((char*)&E,sizeof(E)))
+		if(E.Get_age() == age)
+			++count;
+	fin.close();
+
+	if(count>=1)
+	{
+		Line(25, 70, 13, ' ');
+		gotoxy(30, 13);
+		if(count == 1)
+			cout << count << " Employee found";
+		else
+			cout << count << " Employees found";
+		gotoxy(100, 100);
+		getch();
+
+		fin.open("Employee.dat",ios::in | ios::binary);
+		while(fin.read((char*)&E,sizeof(E)))
+			if(E.Get_age() == age)
+				Reports(E.Get_empID());
+		fin.close();
+	}
+	else
+	{
+
+		 gotoxy(25, 20);
+		 cout<<" User not found Or Doesnt exist";
+		 gotoxy(29,22);
+		 cout<<" Please Try again";
+		 Delay(2000);
+		 goto next;
+
+	}
+}
+
+int Program::Salary_slip()
+{
+	fstream f;
+	Employee E;
+	int id, found;
+	char r;
+
+	_reset:
+	clrscr();
+	Border('*');
+
+	Line(3, 78, 4, '_');
+	gotoxy(39, 3);
+	cout << "Salary slip";
+
+	Line(3, 78, 11, '*');
 	Line(3, 78, 16, '*');
+	gotoxy(34, 13);
+	cout << "Enter the Employee ID";
+	gotoxy(41, 14);
+	cin>>id;
 
+	found = 0;
+	f.open("Employee.dat", ios::in | ios::binary);
+	while(f.read((char*)&E, sizeof(E)))
+		if(id==E.Get_empID())
+		{
+			found = 1;
+
+			clrscr();
+			Border('*');
+
+			Line(3, 78, 4, '_');
+			gotoxy(39, 3);
+			cout << "Salary slip";
+
+			gotoxy(5, 6);
+			cout << "Employee ID:";
+			gotoxy(18, 6);
+			cout << E.Get_empID();
+			gotoxy(5, 7);
+			cout << "Name:";
+			gotoxy(11, 7);
+			cout << E.Get_name();
+			gotoxy(32, 6);
+			cout << "Age:";
+			gotoxy(37, 6);
+			cout << E.Get_age();
+			gotoxy(32, 7);
+			cout << "Tel:";
+			gotoxy(37, 7);
+			cout << E.Get_telno();
+			gotoxy(55, 6);
+			cout << "Designation:";
+			gotoxy(68, 6);
+			cout << E.Get_desig();
+			gotoxy(55, 7);
+			cout << "Department:";
+			gotoxy(67, 7);
+			cout << E.Get_dept();
+			Line(6, 20, 30, ':');
+
+			gotoxy(5, 10);
+			cout << "Earnings";
+			gotoxy(31,10);
+			cout << "Amount";
+
+			gotoxy(5, 13);
+			cout << "Basic Pay:";
+			gotoxy(31, 13);
+			cout << "+" << E.Get_basic();
+
+			gotoxy(5, 14);
+			cout << "HRA:";
+			gotoxy(31, 14);
+			cout << "+" << E.Get_HRA();
+
+			gotoxy(5, 15);
+			cout << "MA:";
+			gotoxy(31, 15);
+			cout << "+" << E.Get_MA();
+
+			gotoxy(5, 16);
+			cout<<"DA:";
+			gotoxy(31, 16);
+			cout << "+" << E.Get_DA();
+
+			gotoxy(5, 17);
+			cout << "TA:";
+			gotoxy(31, 17);
+			cout << "+" << E.Get_TA();
+
+			gotoxy(5, 20);
+			cout << "Total Earnings:";
+			gotoxy(31,20);
+			cout << E.Get_basic() + E.Get_TA() + E.Get_MA() + E.Get_DA() + E.Get_HRA();
+
+			gotoxy(44, 10);
+			cout << "Deductions";
+			gotoxy(68, 10);
+			cout << "Amount";
+
+			gotoxy(44,13);
+			cout << "Tax:";
+			gotoxy(68,13);
+			cout << "-" << E.Get_tax();
+
+			gotoxy(44,14);
+			cout << "PF:";
+			gotoxy(68,14);
+			cout << "-" << E.Get_PF();
+
+			gotoxy(44, 20);
+			cout << "Total Deductions:";
+			gotoxy(68,20);
+			cout << E.Get_PF() + E.Get_tax();
+
+			gotoxy(5,23);
+			cout << "Net Salary: $" << E.Get_grade_pay() << " + Total Earnings - Total Deductions = $" << E.Get_net_sal();
+
+			Line(4, 77, 8, '_');
+			Line(3, 78, 11, '_');
+			Line(3, 78, 21,'_');
+			Line(3, 78, 18, '_');
+			Line(3, 78, 24, '_');
+			Line2(40, 9, 21, '|');
+			Line2(3, 5, 24, '|');
+			Line2(78, 5, 24, '|');
+			Line2(22, 9, 18, '|');
+			Line2(60, 9, 18, '|');
+			break;
+		}
+		f.close();
+
+	if(found == 0)
+	{
+		clrscr();
+		Border('*');
+		Line(3, 78, 4, '_');
+		gotoxy(39, 3);
+		cout << "Salary Slip";
+		Line(3, 78, 11, '*');
+		Line(3, 78, 16, '*');
+		gotoxy(31, 13);
+		cout << "Selected ID does not exist";
+		gotoxy(25, 14);
+		cout << "Press Enter to try again or Esc to exit";
+		gotoxy(100, 100);
+		_resp_check:
+		r = getch();
+
+		if(r == 13)
+			goto _reset;
+		else if(r ==  27)
+			return 0;
+		else
+		{
+			Line(29, 70, 13, ' ');
+			Line(23, 70, 14, ' ');
+			gotoxy(30, 14);
+			cout << "Invalid Input!";
+			Delay(3500);
+			Line(30, 70, 14, ' ');
+			goto _resp_check;
+		}
+	}
+
+	gotoxy(100, 100);
 	getch();
-
 }
 
 int Program::Modify_menu()
@@ -2135,6 +2516,7 @@ void Program::Modify_grade_pay(int id)
                 f_log << "Employee " << E.Get_empID() << "'s grade pay has been modified from " << E.Get_grade_pay() << " to " << gp << endl;
 
 				E.Set_grade_pay(gp);
+				E.Calculate_net_sal();
 				f.seekp(f.tellg() - sizeof(E), ios::beg);
 				f.write((char*)&E, sizeof(E));
 
@@ -2370,6 +2752,7 @@ void Program::Modify_SD(int id)
 			E.Set_TA(TA);
 			E.Set_MA(MA);
 			E.Set_PF(PF);
+			E.Calculate_net_sal();
 
 			f.seekp(f.tellg() - sizeof(E), ios::beg);
 			f.write((char*)&E, sizeof(E));
@@ -2395,12 +2778,6 @@ void Program::Modify_SD(int id)
 
 int Program::Reports()
 {
-	/*
-	 *  Hey Madesh,
-	 *  Write the code for creating a tabular representation of every detail of every employee
-	 *  Create an input function in class Employee
-	 *  - Sasuke Uchiha
-	 */
 	 fstream f;
 	Employee E;
 	int id, r, found;
