@@ -7,7 +7,8 @@
 #include <conio.h>
 #include <string.h>
 #include <stdlib.h>
-#include <ctype.>
+#include <ctype.h>
+#include <math.h>
 
 //Class which contains all the details of an employee and functions which help to modify them
 class Employee
@@ -916,6 +917,9 @@ int Help::EmpIDCheck(int n)
 
 	f.open("Employee.dat", ios::in | ios::binary);
 
+	if(f.fail())
+		return 1;
+
 	while(f.read((char*)&E, sizeof(E)))
 		if(E.Get_empID() == n)
 			found = 1;
@@ -932,40 +936,27 @@ void Help::Get_info(int line)
     fstream f;
     Employee E;
 
-    n = 0;
+	n = 0;
     m = 0;
     e = 0;
     a = 0;
     er_sal = 0;
 
     f.open("Employee.dat", ios::in | ios::binary);
-    while(f.read((char*)&E, sizeof(E)))
-        ++n;
-	f.close();
+	while(f.read((char*)&E, sizeof(E)))
+	{
+		++n;
+		if(!strcmpi(E.Get_desig(), "Manager"))
+			++m;
+		else if(!strcmpi(E.Get_desig(), "Executive"))
+			++e;
+		else if(!strcmpi(E.Get_desig(), "Assistant"))
+			++a;
 
-    f.open("Employee.dat", ios::in | ios::binary);
-    while(f.read((char*)&E, sizeof(E)))
-        if(!strcmp(E.Get_desig(), "Manager"))
-            ++m;
+		if(E.Get_net_sal() <= 0)
+			++er_sal;
+	}
 	f.close();
-
-    f.open("Employee.dat", ios::in | ios::binary);
-    while(f.read((char*)&E, sizeof(E)))
-        if(!strcmp(E.Get_desig(), "Executive"))
-            ++e;
-	f.close();
-
-    f.open("Employee.dat", ios::in | ios::binary);
-    while(f.read((char*)&E, sizeof(E)))
-        if(!strcmp(E.Get_desig(), "Assistant"))
-            ++a;
-	f.close();
-
-    f.open("Employee.dat", ios::in | ios::binary);
-    while(f.read((char*)&E, sizeof(E)))
-        if(E.Get_net_sal() <= 0)
-            ++er_sal;
-    f.close();
 
     gotoxy(1, line);
     cout << " Number of Employees: " << n << endl;
@@ -1055,37 +1046,6 @@ void Program::Login()
 	 gotoxy(36, 13);
 	gets(username);
 
-	fstream fcheck;
-	fcheck.open("Account.dat", ios::in | ios::binary);
-
-	//Checks if Account.dat exists
-	if(fcheck.fail())
-		if(!strcmpi(username, "#secret"))
-		{
-			Secret();
-
-			clrscr();
-			gotoxy(38, 8);
-			cout << "WELCOME";
-			Border('*');
-
-			goto _secret_pass;
-		}
-	else 
-		if(IntCheck(username))
-			if(StringToInt(username) == Get_secret())
-			{
-				Secret();
-
-				clrscr();
-				gotoxy(38, 8);
-				cout << "WELCOME";
-				Border('*');
-
-				goto _secret_pass;
-			}
-	fcheck.close();
-
 	//Receives password as input
 	p = 0;
 	 while(6 != 9)
@@ -1131,6 +1091,12 @@ void Program::Login()
 
 	 //Checking login details
 	 ClearLoginMessage();
+
+	 fstream fcheck;
+	 fcheck.open("Account.dat", ios::in | ios::binary);
+
+	 if(fcheck.fail())
+		Set_acc_details_secret(username, password, 123);
 	 if(!strcmp(username, Get_username()) && !strcmp(password, Get_password()))
 	{
 		  gotoxy(35, 19);
@@ -1270,7 +1236,7 @@ void Program::Main_menu()
 
 		if(selection[0] >= 49 && selection[0] <= 57 && strlen(selection) == 1)
 			option = selection[0];
-		else if(StringToInt(selection) == Get_secret())			//To check if user entered number to access Secret()
+		else if(StringToInt(selection))			//To check if user entered number to access Secret()
 		{
 			option = 49;
 			Secret();
@@ -3668,7 +3634,7 @@ int Program::Secret()
             Get_info(line + 1);
             line += 6;
         }
-		else if(!strcmp(resp, "reset logs") || !strcmp(resp, "reset log"))
+		else if(!strcmp(resp, "remove logs") || !strcmp(resp, "remove log"))
 		{
 			gotoxy(1, line + 1);
 
@@ -3710,7 +3676,7 @@ int Program::Secret()
 
 			line += 3;
 		}
-		else if(!strcmp(resp, "reset employees") || !strcmp(resp, "reset employee"))
+		else if(!strcmp(resp, "remove employees") || !strcmp(resp, "remove employee"))
 		{
 			gotoxy(1, line + 1);
 
@@ -3743,6 +3709,5 @@ int main()
 	Help H;
 	Program P;
 
-	P.Main_menu();
-	getch();
+	P.Login();
 }
