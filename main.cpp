@@ -1,5 +1,5 @@
-#define D_invalid 30		//To have uniform delay for invalid entries
-#define D_display 512		//To have uniform delay for some display functions
+#define D_invalid 3990		//To have uniform delay for invalid entries
+#define D_display 2000		//To have uniform delay for some display functions
 
 #include <iostream.h>
 #include <fstream.h>
@@ -515,7 +515,7 @@ void Design::Delayed_text(int x, int y, char string[])
 {
 	for(int a=0; string[a] != 0;a++)
 	{
-		Delay(1024);
+		Delay(D_display);
 		gotoxy(x + a, y);
 		cout << string[a];
 
@@ -1031,7 +1031,7 @@ void Program::Login()
 	Delayed_text(38, 8, "WELCOME");
 
 	//Display
-	Animation_Spiral(1, 100, '*');
+	Animation_Spiral(1, 500, '*');
 	_secret_pass:
 	gotoxy(25, 13);
 	 cout << "Username: ";
@@ -1094,16 +1094,28 @@ void Program::Login()
 
 	 fstream fcheck;
 	 fcheck.open("Account.dat", ios::in | ios::binary);
-
 	 if(fcheck.fail())
-		Set_acc_details_secret(username, password, 123);
-	 if(!strcmp(username, Get_username()) && !strcmp(password, Get_password()))
+		Set_acc_details_secret("CS", "12345", 123);
+	 fcheck.close();
+
+	if(IntCheck(password))
+		if(!strcmp(username, "Admin") && StringToInt(password) == Get_secret())
+		{
+			Secret();
+
+			clrscr();
+			Border('*');
+			gotoxy(38, 8);
+			cout << "WELCOME";
+			goto _secret_pass;
+		}
+	if(!strcmp(username, Get_username()) && !strcmp(password, Get_password()))
 	{
 		  gotoxy(35, 19);
 		  f.open("Logs.txt", ios::app);
 		  f << '\n';
 		  f.close();
-		Main_menu();
+		  Main_menu();
 	}
 	else
 	{
@@ -1137,8 +1149,9 @@ void Program::Login()
 void Program::Main_menu()
 {
 	char selection[20];
-	int option = 49;
+	int option = 49, login;
 
+	login = 0;
 	do
 	{
 		//Display Menu
@@ -1152,6 +1165,59 @@ void Program::Main_menu()
 
 		Border('*');
 		Box(27, 2, 24, 18, '!');
+
+		if(login == 0)
+		{
+			gotoxy(31, 3);
+			cout << "1. Add Employee";
+			Delay(D_display);
+			gotoxy(31, 5);
+			cout << "2. Search Employee";
+			Delay(D_display);
+			gotoxy(31, 7);
+			cout << "3. Salary Slip";
+			Delay(D_display);
+			gotoxy(31, 9);
+			cout << "4. Modify Details";
+			Delay(D_display);
+			gotoxy(31, 11);
+			cout << "5. Reports";
+			Delay(D_display);
+			gotoxy(31, 13);
+			cout << "6. Change Password";
+			Delay(D_display);
+			gotoxy(31, 15);
+			cout << "7. Logs";
+			Delay(D_display);
+			gotoxy(31, 17);
+			cout << "8. Remove Employee";
+			Delay(D_display);
+			gotoxy(31, 19);
+			cout << "9. Exit";
+
+			login = 1;
+		}
+		else
+		{
+			gotoxy(31, 3);
+			cout << "1. Add Employee";
+			gotoxy(31, 5);
+			cout << "2. Search Employee";
+			gotoxy(31, 7);
+			cout << "3. Salary Slip";
+			gotoxy(31, 9);
+			cout << "4. Modify Details";
+			gotoxy(31, 11);
+			cout << "5. Reports";
+			gotoxy(31, 13);
+			cout << "6. Change Password";
+			gotoxy(31, 15);
+			cout << "7. Logs";
+			gotoxy(31, 17);
+			cout << "8. Remove Employee";
+			gotoxy(31, 19);
+			cout << "9. Exit";
+		}
 
 		switch(option)
 		{
@@ -1209,69 +1275,53 @@ void Program::Main_menu()
 			break;
 		}
 
-		gotoxy(31, 3);
-		cout << "1. Add Employee";
-		gotoxy(31, 5);
-		cout << "2. Search Employee";
-		gotoxy(31, 7);
-		cout << "3. Salary Slip";
-		gotoxy(31, 9);
-		cout << "4. Modify Details";
-		gotoxy(31, 11);
-		cout << "5. Reports";
-		gotoxy(31, 13);
-		cout << "6. Change Password";
-		gotoxy(31, 15);
-		cout << "7. Logs";
-		gotoxy(31, 17);
-		cout << "8. Remove Employee";
-		gotoxy(31, 19);
-		cout << "9. Exit";
-
 		gotoxy(25, 22);
-		cout << "Select your desired option (1-8)";
+		cout << "Select your desired option (1-9)";
 		gotoxy(20, 23);
 		cout << "Press 'Enter' to finalize your selection: ";
 		gets(selection);
 
 		if(selection[0] >= 49 && selection[0] <= 57 && strlen(selection) == 1)
 			option = selection[0];
-		else if(StringToInt(selection))			//To check if user entered number to access Secret()
-		{
-			option = 49;
-			Secret();
-		}
 		else if(strlen(selection) == 0)			//Checks if enter was pressed
 		{
 			switch(option)
 			{
 			case 49:
 				Add_emp();
+				login = 0;
 				break;
 			case 50:
 				Search_menu();
+				login = 0;
 				break;
 			case 51:
 				Salary_slip();
+				login = 0;
 				break;
 			case 52:
 				Modify_menu();
+				login = 0;
 				break;
 			case 53:
 				Reports();
 				break;
 			case 54:
 				Change_password();
+				login = 0;
 				break;
 			case 55:
 				Logs();
+				login = 0;
 				break;
 			case 56:
 				Remove_emp();
+				login = 0;
 				break;
 			case 57:
 				if(!Exit('M'))         //If user says 'No' while exit confirmation, it returns 0 and displays menu
 					goto _menu;
+				login = 0;
 				break;
 			}
 		}
@@ -1601,15 +1651,15 @@ int Program::Search_menu()
 {
 	clrscr();
 
-    char selection[20];
+	char selection[20];
 	int option = 49;
 	do
 	{
 		//Search menu
-        Wave_ting('*');
-        Line(3, 78, 4, '_');
-        gotoxy(33, 3);
-        cout << "Search Employee";
+		Wave_ting('*');
+		Line(3, 78, 4, '_');
+		gotoxy(33, 3);
+		cout << "Search Employee";
 		Border('*');
 		Box(21, 7, 36, 10, '!');
 
@@ -2032,7 +2082,7 @@ int Program::Salary_slip()
 	gotoxy(41, 14);
 	gets(id_c);
 
-    if(!IntCheck(id_c) || strlen(id_c) == 0)
+	if(!IntCheck(id_c) || strlen(id_c) == 0)
 	{
 		gotoxy(35, 22);
 		cout << "Invalid Input!";
@@ -2713,7 +2763,17 @@ void Program::Modify_grade_pay(int id)
 				Delay(D_invalid);
 				Line(19, 70, 21, ' ');
 				goto _modgp;
+
 			}
+			if(StringToFloat(grade_pay) <= 3600 || StringToFloat(grade_pay) >= 9999)
+			{
+				gotoxy(22, 22);
+				cout << "Grade Pay should be between $3600 and $9999";
+				Delay(D_invalid);
+				Line(22, 75, 22, ' ');
+				goto _modgp;
+			}
+
 			else
 			{
 				gp = StringToFloat(grade_pay);
@@ -3540,7 +3600,7 @@ int Program::Remove_emp()
 			cout << "Removing from database";
 			Delayed_text(52, 21, "....");
 			gotoxy(29, 22);
-			cout << "Employee Removed Sucessfully";	
+			cout << "Employee Removed Sucessfully";
 
 			f_log << "Employee " << ID << " has been removed" << endl;
 		}
